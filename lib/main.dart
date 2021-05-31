@@ -1,8 +1,8 @@
 import 'package:elok_lagi/master.dart';
-import 'package:elok_lagi/screens/feed.dart';
-import 'package:elok_lagi/screens/login.dart';
-import 'package:elok_lagi/screens/profile.dart';
-import 'package:elok_lagi/screens/register.dart';
+import 'package:elok_lagi/view/feed.dart';
+import 'package:elok_lagi/view/login.dart';
+import 'package:elok_lagi/view/profile.dart';
+import 'package:elok_lagi/view/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.green,
+          primaryColor: Colors.purple,
           //accentColor: Colors.yellow,
         ),
         home: new Login());

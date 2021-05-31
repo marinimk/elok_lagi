@@ -1,14 +1,14 @@
 //kinda like a master page for the appbar and bottomnavigationbar
 //import 'dart:ffi';
 
-//import 'package:elok_lagi_psm/screens/register.dart';
+//import 'package:elok_lagi_psm/view/register.dart';
 // import 'dart:math';
 
-import 'package:elok_lagi/screens/feed.dart';
-import 'package:elok_lagi/screens/feedbacks.dart';
-import 'package:elok_lagi/screens/notifications.dart';
-import 'package:elok_lagi/screens/profile.dart';
-import 'package:elok_lagi/screens/search.dart';
+import 'package:elok_lagi/view/feed.dart';
+import 'package:elok_lagi/view/feedbacks.dart';
+import 'package:elok_lagi/view/notifications.dart';
+import 'package:elok_lagi/view/profile.dart';
+import 'package:elok_lagi/view/search.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 // import 'dart:ui';
