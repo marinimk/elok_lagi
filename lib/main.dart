@@ -1,4 +1,5 @@
 import 'package:elok_lagi/master.dart';
+import 'package:elok_lagi/otherprj/home.dart';
 import 'package:elok_lagi/view/feed.dart';
 import 'package:elok_lagi/view/login.dart';
 import 'package:elok_lagi/view/profile.dart';
@@ -17,6 +18,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.purple,
           //accentColor: Colors.yellow,
         ),
-        home: new Login());
+        home: new Master());
   }
 }

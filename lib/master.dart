@@ -4,6 +4,9 @@
 //import 'package:elok_lagi_psm/view/register.dart';
 // import 'dart:math';
 
+// import 'dart:html';
+
+import 'package:elok_lagi/otherprj/home.dart';
 import 'package:elok_lagi/view/feed.dart';
 import 'package:elok_lagi/view/feedbacks.dart';
 import 'package:elok_lagi/view/notifications.dart';
@@ -24,9 +27,7 @@ class _MasterState extends State<Master> {
   int _currentIndex = 0;
 
   final List<Widget> _bottomApp = [
-    Feed(),
-    Search(),
-    Notifications(),
+    Home(),
     Feedbacks(),
     Profile(),
   ];
@@ -41,14 +42,58 @@ class _MasterState extends State<Master> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Elok Lagi',
+            style: TextStyle(
+              color: Colors.red[400],
+            ),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          actions: [
+            Stack(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.notifications_none,
+                    color: Colors.red[400],
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    print('NOTIFICATION presed');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Notifications()),
+                    );
+                  },
+                ),
+                Positioned(
+                  left: 13,
+                  top: 10,
+                  child: Container(
+                    width: 13,
+                    height: 13,
+                    decoration: BoxDecoration(
+                        color: Colors.red[300],
+                        borderRadius: BorderRadius.circular(20)),
+                    child: FittedBox(
+                      child: Text("7"),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
+          // backgroundColor: Colors.black,
           showSelectedLabels: true,
           showUnselectedLabels: false,
           unselectedIconTheme: IconThemeData(
-            color: Colors.white,
+            color: Colors.black,
           ),
           onTap: onTapBar,
           items: [
@@ -56,14 +101,6 @@ class _MasterState extends State<Master> {
               icon: Icon(Icons.home_outlined),
               label: 'Feed',
               backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none_outlined),
-              label: 'Notification',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.chat_bubble_outline),
