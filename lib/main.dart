@@ -1,5 +1,5 @@
 import 'package:elok_lagi/master.dart';
-import 'package:elok_lagi/otherprj/home.dart';
+import 'package:elok_lagi/view/home.dart';
 import 'package:elok_lagi/view/feed.dart';
 import 'package:elok_lagi/view/login.dart';
 import 'package:elok_lagi/view/profile.dart';
