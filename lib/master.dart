@@ -28,12 +28,11 @@ class _MasterState extends State<Master> {
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
     Home(),
-    // Notifications(),
-    // Feedbacks(),
+    Notifications(),
+    Feedbacks(),
     Profile(),
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +92,6 @@ class _MasterState extends State<Master> {
           onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
         bottomNavigationBar: BottomAppBar(
           color: Colors.black54,
           elevation: 0,
@@ -102,61 +100,67 @@ class _MasterState extends State<Master> {
           child: Container(
             height: 60,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          currentScreen =
-                              Home(); 
-                          currentTab = 0;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.home,
-                            color: currentTab == 0 ? Colors.blue : Colors.grey,
-                          ),
-                          Text(
-                            'Home',
-                            style: TextStyle(
+                    Container(
+                      child: MaterialButton(
+                        minWidth: 40,
+                        onPressed: () {
+                          setState(() {
+                            currentScreen = Home();
+                            currentTab = 0;
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.home,
                               color:
                                   currentTab == 0 ? Colors.blue : Colors.grey,
                             ),
-                          ),
-                        ],
+                            Text(
+                              'Home',
+                              style: TextStyle(
+                                color:
+                                    currentTab == 0 ? Colors.blue : Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          currentScreen =
-                              Notifications(); 
-                          currentTab = 1;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.chat,
-                            color: currentTab == 1 ? Colors.blue : Colors.grey,
-                          ),
-                          Text(
-                            'Chats',
-                            style: TextStyle(
+                    Container(
+                      child: MaterialButton(
+                        minWidth: 40,
+                        onPressed: () {
+                          setState(() {
+                            currentScreen = Notifications();
+                            currentTab = 1;
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.chat,
                               color:
                                   currentTab == 1 ? Colors.blue : Colors.grey,
                             ),
-                          ),
-                        ],
+                            Text(
+                              'Chats',
+                              style: TextStyle(
+                                color:
+                                    currentTab == 1 ? Colors.blue : Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -165,14 +169,14 @@ class _MasterState extends State<Master> {
                 // Right Tab bar icons
 
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen =
-                              Feedbacks(); 
+                          currentScreen = Feedbacks();
                           currentTab = 3;
                         });
                       },
@@ -197,8 +201,7 @@ class _MasterState extends State<Master> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen =
-                              Profile(); 
+                          currentScreen = Profile();
                           currentTab = 2;
                         });
                       },
