@@ -148,12 +148,12 @@ class _MasterState extends State<Master> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              Icons.chat,
+                              Icons.question_answer,
                               color:
                                   currentTab == 1 ? Colors.blue : Colors.grey,
                             ),
                             Text(
-                              'Chats',
+                              'FAQ',
                               style: TextStyle(
                                 color:
                                     currentTab == 1 ? Colors.blue : Colors.grey,
