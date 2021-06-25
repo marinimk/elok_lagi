@@ -7,11 +7,9 @@
 // import 'dart:html';
 
 import 'package:elok_lagi/view/home.dart';
-import 'package:elok_lagi/view/feed.dart';
 import 'package:elok_lagi/view/feedbacks.dart';
 import 'package:elok_lagi/view/notifications.dart';
 import 'package:elok_lagi/view/profile.dart';
-import 'package:elok_lagi/view/search.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 // import 'dart:ui';
