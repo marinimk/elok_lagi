@@ -69,8 +69,9 @@ class _MasterState extends State<Master> {
                     width: 13,
                     height: 13,
                     decoration: BoxDecoration(
-                        color: Colors.red[300],
-                        borderRadius: BorderRadius.circular(20)),
+                      color: Colors.red[300],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: FittedBox(
                       child: Text("7"),
                     ),
@@ -109,10 +110,12 @@ class _MasterState extends State<Master> {
                       child: MaterialButton(
                         minWidth: 40,
                         onPressed: () {
-                          setState(() {
-                            currentScreen = Home();
-                            currentTab = 0;
-                          });
+                          setState(
+                            () {
+                              currentScreen = Home();
+                              currentTab = 0;
+                            },
+                          );
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -137,10 +140,12 @@ class _MasterState extends State<Master> {
                       child: MaterialButton(
                         minWidth: 40,
                         onPressed: () {
-                          setState(() {
-                            currentScreen = Notifications();
-                            currentTab = 1;
-                          });
+                          setState(
+                            () {
+                              currentScreen = Notifications();
+                              currentTab = 1;
+                            },
+                          );
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -173,10 +178,12 @@ class _MasterState extends State<Master> {
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
-                        setState(() {
-                          currentScreen = Feedbacks();
-                          currentTab = 3;
-                        });
+                        setState(
+                          () {
+                            currentScreen = Feedbacks();
+                            currentTab = 3;
+                          },
+                        );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -198,10 +205,12 @@ class _MasterState extends State<Master> {
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
-                        setState(() {
-                          currentScreen = Profile();
-                          currentTab = 2;
-                        });
+                        setState(
+                          () {
+                            currentScreen = Profile();
+                            currentTab = 2;
+                          },
+                        );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
