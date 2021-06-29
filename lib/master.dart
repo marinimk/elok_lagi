@@ -6,10 +6,10 @@
 
 // import 'dart:html';
 
-import 'package:elok_lagi/view/home.dart';
-import 'package:elok_lagi/view/feedbacks.dart';
-import 'package:elok_lagi/view/notifications.dart';
-import 'package:elok_lagi/view/profile.dart';
+import 'package:elok_lagi/view/screens/home.dart';
+import 'package:elok_lagi/view/screens/feedbacks.dart';
+import 'package:elok_lagi/view/screens/notifications.dart';
+import 'package:elok_lagi/view/screens/profile.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 // import 'dart:ui';
