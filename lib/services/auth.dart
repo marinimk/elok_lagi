@@ -1,13 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elok_lagi/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:elok_lagi/models/users.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // create user obj based on firebase user
   Users _userFromFirebaseUser(User user) {
     return user != null ? Users(uid: user.uid) : null;
+  }
+
+  // GET UID
+  Future<String> getCurrentUID() async {
+    return (_auth.currentUser).uid ;
   }
 
   // auth change user stream
@@ -69,4 +76,9 @@ class AuthService {
       return null;
     }
   }
+
+  // void getCustomerInfo() async {
+  //   final custInfo = await _firestore.collection('customer').get(user.uid);
+  //   custInfo.docs
+  // }
 }

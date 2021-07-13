@@ -33,7 +33,23 @@ class DatabaseService {
     }).toList();
   }
 
+  //customer data from snapshot
+  CustomerData _customerDataFromSS(DocumentSnapshot snapshot) {
+    return CustomerData(
+      uid: uid,
+      username: snapshot.data()['username'],
+      email: snapshot.data()['email'],
+      password: snapshot.data()['password'],
+      location: snapshot.data()['location'],
+      phoneNum: snapshot.data()['phoneNum'],
+    );
+  }
+
   Stream<List<Customer>> get customer {
     return customerCollection.snapshots().map(_customerListFromSS);
+  }
+
+  Stream<CustomerData> get customerData {
+    return customerCollection.doc(uid).snapshots().map(_customerDataFromSS);
   }
 }

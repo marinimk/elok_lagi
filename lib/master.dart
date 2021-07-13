@@ -1,10 +1,4 @@
 //kinda like a master page for the appbar and bottomnavigationbar
-//import 'dart:ffi';
-
-//import 'package:elok_lagi_psm/view/register.dart';
-// import 'dart:math';
-
-// import 'dart:html';
 
 import 'package:elok_lagi/view/screens/home.dart';
 import 'package:elok_lagi/view/screens/feedbacks.dart';
@@ -29,6 +23,7 @@ class _MasterState extends State<Master> {
     Notifications(),
     Feedbacks(),
     Profile(),
+    // Hehe(),
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
 
