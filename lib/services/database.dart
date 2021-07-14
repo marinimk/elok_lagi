@@ -49,7 +49,13 @@ class DatabaseService {
     return customerCollection.snapshots().map(_customerListFromSS);
   }
 
+  // Future<Customer> get customerSingle {
+  //   return customerCollection.doc(uid).get();
+  // }
+
   Stream<CustomerData> get customerData {
     return customerCollection.doc(uid).snapshots().map(_customerDataFromSS);
   }
+
+
 }

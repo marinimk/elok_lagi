@@ -1,4 +1,3 @@
-import 'package:elok_lagi/view/widgets/updateProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:elok_lagi/models/customer.dart';
 
@@ -8,17 +7,14 @@ class CustomerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // void _editCustomerInfo(){
-    //  showModalBottomSheet(context: context, builder: (context){
-    //    return Container(color: Colors.purple,);
-    //  });
-    // }
-
     return Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Container(
+          //   child: Text(customer.username),
+          // ),
           customerInfoCard(
               context, Icons.person_outline, 'Username', customer.username),
           customerInfoCard(
@@ -42,7 +38,6 @@ class CustomerTile extends StatelessWidget {
         leading: Icon(icon),
         title: Text(title),
         subtitle: Text(subtitle),
-        // trailing: Icon(Icons.create_outlined),
       ),
     );
   }
