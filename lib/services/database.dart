@@ -55,7 +55,5 @@ class DatabaseService {
 
   Stream<CustomerData> get customerData {
     return customerCollection.doc(uid).snapshots().map(_customerDataFromSS);
-  }
-
-
+  } 
 }
