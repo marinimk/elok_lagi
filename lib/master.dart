@@ -1,12 +1,10 @@
-//kinda like a master page for the appbar and bottomnavigationbar
-
 import 'package:elok_lagi/view/screens/home.dart';
 import 'package:elok_lagi/view/screens/feedbacks.dart';
 import 'package:elok_lagi/view/screens/notifications.dart';
 import 'package:elok_lagi/view/screens/profile.dart';
+import 'package:elok_lagi/view/widgets/constants.dart';
+import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
-// import 'dart:ui';
 
 class Master extends StatefulWidget {
   Master({Key key}) : super(key: key);
@@ -31,55 +29,12 @@ class _MasterState extends State<Master> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Elok Lagi',
-            style: TextStyle(
-              color: Colors.red[400],
-            ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          actions: [
-            Stack(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.notifications_none,
-                    color: Colors.red[400],
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    print('NOTIFICATION presed');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Notifications()),
-                    );
-                  },
-                ),
-                Positioned(
-                  left: 13,
-                  top: 10,
-                  child: Container(
-                    width: 13,
-                    height: 13,
-                    decoration: BoxDecoration(
-                      color: Colors.red[300],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: FittedBox(
-                      child: Text("7"),
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+        appBar: ElAppBar(),
         body: PageStorage(
           child: currentScreen,
           bucket: bucket,
         ),
+        //TODO: the FAB follows the keyboard kalau bukak (https://github.com/bizz84/bottom_bar_fab_flutter/issues/2)
         floatingActionButton: FloatingActionButton(
           elevation: 0,
           child: Icon(Icons.add),
@@ -87,7 +42,7 @@ class _MasterState extends State<Master> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          color: Colors.black54,
+          color: colorsConst[900],
           elevation: 0,
           shape: CircularNotchedRectangle(),
           notchMargin: 10,
@@ -101,135 +56,51 @@ class _MasterState extends State<Master> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
-                      child: MaterialButton(
-                        minWidth: 40,
-                        onPressed: () {
-                          setState(
-                            () {
-                              currentScreen = Home();
-                              currentTab = 0;
-                            },
-                          );
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.home,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey,
-                            ),
-                            Text(
-                              'Home',
-                              style: TextStyle(
-                                color:
-                                    currentTab == 0 ? Colors.blue : Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: MaterialButton(
-                        minWidth: 40,
-                        onPressed: () {
-                          setState(
-                            () {
-                              currentScreen = Notifications();
-                              currentTab = 1;
-                            },
-                          );
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.question_answer,
-                              color:
-                                  currentTab == 1 ? Colors.blue : Colors.grey,
-                            ),
-                            Text(
-                              'FAQ',
-                              style: TextStyle(
-                                color:
-                                    currentTab == 1 ? Colors.blue : Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                    bottomNaviBtn(Home(), 0, Icons.home, 'Home'),
+                    bottomNaviBtn(
+                        Notifications(), 1, Icons.question_answer, 'FAQ'),
                   ],
                 ),
-
-                // Right Tab bar icons
-
                 Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(
-                          () {
-                            currentScreen = Feedbacks();
-                            currentTab = 3;
-                          },
-                        );
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.chat,
-                            color: currentTab == 3 ? Colors.blue : Colors.grey,
-                          ),
-                          Text(
-                            'Feedback',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 3 ? Colors.blue : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(
-                          () {
-                            currentScreen = Profile();
-                            currentTab = 2;
-                          },
-                        );
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.person,
-                            color: currentTab == 2 ? Colors.blue : Colors.grey,
-                          ),
-                          Text(
-                            'Profile',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 2 ? Colors.blue : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    bottomNaviBtn(Feedbacks(), 2, Icons.chat, 'Feedback'),
+                    bottomNaviBtn(Profile(), 3, Icons.person, 'Profile'),
                   ],
                 )
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  MaterialButton bottomNaviBtn(
+      Widget page, int currTab, IconData icon, String title) {
+    return MaterialButton(
+      minWidth: 40,
+      onPressed: () => setState(
+        () {
+          currentScreen = page;
+          currentTab = currTab;
+        },
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            icon,
+            color: currentTab == currTab ? colorsConst[500] : Colors.grey,
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: currentTab == currTab ? colorsConst[500] : Colors.grey,
+            ),
+          ),
+        ],
       ),
     );
   }

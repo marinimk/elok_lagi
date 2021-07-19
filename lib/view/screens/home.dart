@@ -2,9 +2,9 @@ import 'package:elok_lagi/view/screens/feedbacks.dart';
 import 'package:elok_lagi/view/screens/notifications.dart';
 import 'package:elok_lagi/view/screens/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:elok_lagi/view/widgets/category.dart';
-import 'package:elok_lagi/view/widgets/featured.dart';
-import 'package:elok_lagi/view/widgets/product-list.dart';
+import 'package:elok_lagi/view/widgets/home/category.dart';
+import 'package:elok_lagi/view/widgets/home/featured.dart';
+import 'package:elok_lagi/view/widgets/home/restaurant_list.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -34,90 +34,52 @@ class _HomeState extends State<Home> {
                 ],
               ),
               child: ListTile(
-                leading: Icon(Icons.search, color: Colors.red[300]),
+                leading: Icon(Icons.search, color: Colors.red[300], size: 40),
                 title: TextField(
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Search for food and restaurent"),
-                ),
-                trailing: Icon(
-                  Icons.filter_list,
-                  color: Colors.red[300],
+                      hintText: "Search for your cravings"),
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.red[100],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Category",
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.grey),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.red[100],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Featured(),
-            // SizedBox(
-            //   height: 10,
-            // ),
+            titleSeparator('Category'),
             Category(),
-            SizedBox(
-              height: 0,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.red[100],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Food Lists",
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.grey),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.red[100],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ProductList()
+            titleSeparator('Restaurant List'),
+            RestaurantList()
           ],
         ),
       ),
+    );
+  }
+
+  Row titleSeparator(String title) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.red[100],
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            title,
+            style: TextStyle(
+                fontSize: 21, fontWeight: FontWeight.w800, color: Colors.grey),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.red[100],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

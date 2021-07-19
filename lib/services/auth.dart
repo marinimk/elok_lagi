@@ -59,7 +59,7 @@ class AuthService {
 
       //create a new doc for the customer with the uid
       await DatabaseService(uid: user.uid).updateCustomerData(
-          'username', 'email', 'password', 'location', 'phoneNum');
+          'username',  'location', 'phoneNum');
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());

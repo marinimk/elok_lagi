@@ -1,4 +1,3 @@
-//https://www.youtube.com/watch?v=hgFpcS0e5X0
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:food_delivery_flutter_ui/model/product_model.dart';
@@ -37,13 +36,8 @@ class Food extends StatelessWidget {
                   color: Colors.red[400],
                   size: 25,
                 ),
-                onPressed: () {
-                  print('NOTIFICATION presed');
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Notifications()),
-                  // );
-                },
+                onPressed: () =>
+                  print('NOTIFICATION presed'),
               ),
               Positioned(
                 left: 13,
@@ -74,67 +68,6 @@ class Food extends StatelessWidget {
                 height: 300,
                 width: 400,
               ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Container(
-              //   height: 40,
-              //   width: 130,
-              //   decoration: BoxDecoration(
-              //     color: Color(0xFFF0C143),
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(30),
-              //     ),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //     child: Row(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //       children: [
-              //         GestureDetector(
-              //           onTap: () {
-              //             // Provider.of<MyProvider>(context, listen: false)
-              //             //     .decreaseAmountOfFood();
-              //           },
-              //           child: Icon(
-              //             Icons.remove,
-              //             size: 28,
-              //             color: Colors.grey[900],
-              //           ),
-              //         ),
-              //         SizedBox(
-              //           width: 3,
-              //         ),
-              //         // Consumer<MyProvider>(
-              //         //     builder: (context, numbersOfOrders, child) {
-              //         //   return Text(
-              //         //     numbersOfOrders.amountOfFood.toString(),
-              //         //     style: TextStyle(
-              //         //       fontWeight: FontWeight.w600,
-              //         //       fontSize: 24,
-              //         //       color: Colors.grey[900],
-              //         //     ),
-              //         //   );
-              //         // },),
-              //         SizedBox(
-              //           width: 3,
-              //         ),
-              //         GestureDetector(
-              //           onTap: () {
-              //             // Provider.of<MyProvider>(context, listen: false)
-              //             //     .increaseAmountOfFood();
-              //           },
-              //           child: Icon(
-              //             Icons.add,
-              //             size: 28,
-              //             color: Colors.grey[900],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               SizedBox(
                 height: 20,
               ),
