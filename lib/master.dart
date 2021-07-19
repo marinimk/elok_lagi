@@ -1,6 +1,6 @@
-import 'package:elok_lagi/view/screens/home.dart';
+import 'package:elok_lagi/view/screens/faq.dart';
+import 'package:elok_lagi/view/screens/home/home.dart';
 import 'package:elok_lagi/view/screens/feedbacks.dart';
-import 'package:elok_lagi/view/screens/notifications.dart';
 import 'package:elok_lagi/view/screens/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
@@ -18,7 +18,7 @@ class _MasterState extends State<Master> {
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
     Home(),
-    Notifications(),
+    FAQ(),
     Feedbacks(),
     Profile(),
     // Hehe(),
@@ -57,8 +57,7 @@ class _MasterState extends State<Master> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     bottomNaviBtn(Home(), 0, Icons.home, 'Home'),
-                    bottomNaviBtn(
-                        Notifications(), 1, Icons.question_answer, 'FAQ'),
+                    bottomNaviBtn(FAQ(), 1, Icons.question_answer, 'FAQ'),
                   ],
                 ),
                 Row(

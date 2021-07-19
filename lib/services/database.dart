@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elok_lagi/models/customer.dart';
+import 'package:elok_lagi/models/food.dart';
 import 'package:elok_lagi/models/restaurant.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -49,15 +50,29 @@ class DatabaseService {
     );
   }
 
-  List<Restaurant> _restaurantListFromSS(QuerySnapshot snapshot) {
+  List<RestaurantData> _restaurantListFromSS(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return Restaurant(
+      return RestaurantData(
+        uid: doc.data()['uid'] ?? '',
         name: doc.data()['name'] ?? '',
         // email: doc.data()['email'] ?? '',
         // password: doc.data()['password'] ?? '',
+        category: doc.data()['category'] ?? '',
         location: doc.data()['location'] ?? '',
         phoneNum: doc.data()['phoneNum'] ?? '',
         status: doc.data()['status'] ?? false,
+      );
+    }).toList();
+  }
+
+  List<Food> _foodListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Food(
+        name: doc.data()['name'] ?? '',
+        description: doc.data()['description'] ?? '',
+        oriPrice: doc.data()['oriPrice'] ?? 0.0,
+        salePrice: doc.data()['salePrice'] ?? 0.0,
+        pax: doc.data()['pax'] ?? 0,
       );
     }).toList();
   }
@@ -70,7 +85,15 @@ class DatabaseService {
     return customerCollection.doc(uid).snapshots().map(_customerDataFromSS);
   }
 
-  Stream<List<Restaurant>> get restaurant {
+  Stream<List<RestaurantData>> get restaurant {
     return restaurantCollection.snapshots().map(_restaurantListFromSS);
+  }
+
+  Stream<List<Food>> get food {
+    return restaurantCollection
+        .doc(uid)
+        .collection('food')
+        .snapshots()
+        .map(_foodListFromSS);
   }
 }
