@@ -1,4 +1,4 @@
-import 'package:elok_lagi/services/auth.dart';
+import 'package:elok_lagi/controller/auth.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';

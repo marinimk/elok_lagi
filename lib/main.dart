@@ -1,5 +1,5 @@
 import 'package:elok_lagi/master.dart';
-import 'package:elok_lagi/services/auth.dart';
+import 'package:elok_lagi/controller/auth.dart';
 import 'package:elok_lagi/view/screens/home/home.dart';
 import 'package:elok_lagi/view/screens/profile.dart';
 import 'package:elok_lagi/view/wrapper.dart';

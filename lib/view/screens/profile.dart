@@ -1,9 +1,9 @@
 import 'package:elok_lagi/models/users.dart';
-import 'package:elok_lagi/services/auth.dart';
+import 'package:elok_lagi/controller/auth.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/profile/updateProfile.dart';
 import 'package:flutter/material.dart';
-import 'package:elok_lagi/services/database.dart';
+import 'package:elok_lagi/controller/database.dart';
 import 'package:provider/provider.dart';
 import 'package:elok_lagi/models/customer.dart';
 import 'package:elok_lagi/view/widgets/profile/customer_list.dart';
