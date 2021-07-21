@@ -1,7 +1,7 @@
 import 'package:elok_lagi/view/screens/faq.dart';
 import 'package:elok_lagi/view/screens/home/home.dart';
 import 'package:elok_lagi/view/screens/feedbacks.dart';
-import 'package:elok_lagi/view/screens/profile.dart';
+import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:flutter/material.dart';

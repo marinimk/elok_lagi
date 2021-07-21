@@ -1,9 +1,5 @@
-import 'package:elok_lagi/master.dart';
 import 'package:elok_lagi/controller/auth.dart';
-import 'package:elok_lagi/view/screens/home/home.dart';
-import 'package:elok_lagi/view/screens/profile.dart';
 import 'package:elok_lagi/view/wrapper.dart';
-import 'package:elok_lagi/view/authenticate/signinup.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
