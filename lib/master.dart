@@ -1,6 +1,7 @@
-import 'package:elok_lagi/view/screens/faq.dart';
+import 'package:elok_lagi/view/screens/cart/cart.dart';
+import 'package:elok_lagi/view/screens/faq/faq_list.dart';
 import 'package:elok_lagi/view/screens/home/home.dart';
-import 'package:elok_lagi/view/screens/feedbacks.dart';
+import 'package:elok_lagi/view/screens/helpdesk.dart';
 import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
@@ -14,15 +15,14 @@ class Master extends StatefulWidget {
 }
 
 class _MasterState extends State<Master> {
-  Widget currentScreen = Home(); // Our first view in viewport
-  int currentTab = 0; // to keep track of active tab index
+  Widget currentScreen = Home();
+  int currentTab = 0;
   final List<Widget> screens = [
     Home(),
-    FAQ(),
-    Feedbacks(),
+    HelpDesk(),
+    FAQList(),
     Profile(),
-    // Hehe(),
-  ]; // to store nested tabs
+  ];
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
@@ -37,8 +37,13 @@ class _MasterState extends State<Master> {
         //TODO: the FAB follows the keyboard kalau bukak (https://github.com/bizz84/bottom_bar_fab_flutter/issues/2)
         floatingActionButton: FloatingActionButton(
           elevation: 0,
-          child: Icon(Icons.add),
-          onPressed: () {},
+          child: Icon(Icons.shopping_bag_outlined),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Cart()),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
@@ -57,14 +62,14 @@ class _MasterState extends State<Master> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     bottomNaviBtn(Home(), 0, Icons.home, 'Home'),
-                    bottomNaviBtn(FAQ(), 1, Icons.question_answer, 'FAQ'),
+                    bottomNaviBtn(HelpDesk(), 1, Icons.live_help, 'Help Desk'),
                   ],
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    bottomNaviBtn(Feedbacks(), 2, Icons.chat, 'Feedback'),
+                    bottomNaviBtn(FAQList(), 2, Icons.question_answer, 'FAQ'),
                     bottomNaviBtn(Profile(), 3, Icons.person, 'Profile'),
                   ],
                 )
