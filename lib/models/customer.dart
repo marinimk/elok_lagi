@@ -4,8 +4,15 @@ class Customer {
   final String password;
   final String location;
   final String phoneNum;
+  final String imageURL;
 
-  Customer({this.username, this.email, this.password, this.location, this.phoneNum});
+  Customer(
+      {this.username,
+      this.email,
+      this.password,
+      this.location,
+      this.phoneNum,
+      this.imageURL});
 }
 
 class CustomerData {
@@ -15,6 +22,14 @@ class CustomerData {
   final String password;
   final String location;
   final String phoneNum;
+  final String imageURL;
 
-  CustomerData({this.uid, this.username, this.email, this.password, this.location, this.phoneNum});
+  CustomerData(
+      {this.uid,
+      this.username,
+      this.email,
+      this.password,
+      this.location,
+      this.phoneNum,
+      this.imageURL});
 }

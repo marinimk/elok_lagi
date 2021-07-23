@@ -50,13 +50,15 @@ ButtonStyle elevatedButtonStyle() {
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
-
-        // side: BorderSide(
-        //     // width: 2,
-        //     // color: Colors.red,
-        //     ),
       ),
     ),
+  );
+}
+
+ButtonStyle circularElevatedButton() {
+  return ElevatedButton.styleFrom(
+    shape: CircleBorder(),
+    padding: EdgeInsets.all(10),
   );
 }
 
