@@ -5,6 +5,7 @@ class Customer {
   final String location;
   final String phoneNum;
   final String imageURL;
+  final List cart;
 
   Customer(
       {this.username,
@@ -12,7 +13,8 @@ class Customer {
       this.password,
       this.location,
       this.phoneNum,
-      this.imageURL});
+      this.imageURL,
+      this.cart});
 }
 
 class CustomerData {
@@ -23,6 +25,7 @@ class CustomerData {
   final String location;
   final String phoneNum;
   final String imageURL;
+  final List cart;
 
   CustomerData(
       {this.uid,
@@ -31,5 +34,6 @@ class CustomerData {
       this.password,
       this.location,
       this.phoneNum,
-      this.imageURL});
+      this.imageURL,
+      this.cart});
 }

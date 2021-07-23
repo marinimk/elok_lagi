@@ -1,4 +1,6 @@
-import 'package:elok_lagi/view/screens/cart/cart.dart';
+import 'package:elok_lagi/controller/database.dart';
+import 'package:elok_lagi/models/users.dart';
+import 'package:elok_lagi/view/screens/cart/cart_main.dart';
 import 'package:elok_lagi/view/screens/faq/faq_list.dart';
 import 'package:elok_lagi/view/screens/home/home.dart';
 import 'package:elok_lagi/view/screens/helpdesk.dart';
@@ -6,10 +8,9 @@ import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Master extends StatefulWidget {
-  Master({Key key}) : super(key: key);
-
   @override
   _MasterState createState() => _MasterState();
 }
@@ -27,6 +28,7 @@ class _MasterState extends State<Master> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<Users>(context);
     return SafeArea(
       child: Scaffold(
         appBar: ElAppBar(),
@@ -36,15 +38,15 @@ class _MasterState extends State<Master> {
         ),
         //TODO: the FAB follows the keyboard kalau bukak (https://github.com/bizz84/bottom_bar_fab_flutter/issues/2)
         floatingActionButton: FloatingActionButton(
-          elevation: 0,
-          child: Icon(Icons.shopping_bag_outlined),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Cart()),
-            );
-          },
-        ),
+            elevation: 0,
+            child: Icon(Icons.shopping_bag_outlined),
+            onPressed: () {
+              print(user.uid);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CartMain(cuid: user.uid)));
+            }),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
           color: colorsConst[900],

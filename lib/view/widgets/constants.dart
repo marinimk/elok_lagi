@@ -37,6 +37,7 @@ InputDecoration textInputDecoration(IconData icon, String title) {
     ),
     contentPadding: EdgeInsets.all(10),
     hintText: title,
+    // labelText: 'wassup',
     hintStyle: TextStyle(
       fontSize: 14,
       color: Color(0XFFA7BCC7),
