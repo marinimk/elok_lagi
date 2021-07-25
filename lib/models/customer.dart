@@ -5,16 +5,15 @@ class Customer {
   final String location;
   final String phoneNum;
   final String imageURL;
-  final List cart;
 
-  Customer(
-      {this.username,
-      this.email,
-      this.password,
-      this.location,
-      this.phoneNum,
-      this.imageURL,
-      this.cart});
+  Customer({
+    this.username,
+    this.email,
+    this.password,
+    this.location,
+    this.phoneNum,
+    this.imageURL,
+  });
 }
 
 class CustomerData {
@@ -25,15 +24,14 @@ class CustomerData {
   final String location;
   final String phoneNum;
   final String imageURL;
-  final List cart;
 
-  CustomerData(
-      {this.uid,
-      this.username,
-      this.email,
-      this.password,
-      this.location,
-      this.phoneNum,
-      this.imageURL,
-      this.cart});
+  CustomerData({
+    this.uid,
+    this.username,
+    this.email,
+    this.password,
+    this.location,
+    this.phoneNum,
+    this.imageURL,
+  });
 }

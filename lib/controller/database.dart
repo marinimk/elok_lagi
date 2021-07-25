@@ -5,6 +5,7 @@ import 'package:elok_lagi/models/faq.dart';
 import 'package:elok_lagi/models/food.dart';
 import 'package:elok_lagi/models/restaurant.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseService {
   final String uid;
@@ -21,14 +22,13 @@ class DatabaseService {
 
   //CRU the customer's information
   Future updateCustomerData(String username, String location, String phoneNum,
-      String imageURL, List cart) async {
+      String imageURL) async {
     return await customerCollection.doc(uid).set({
       'uid': uid,
       'username': username,
       'location': location,
       'phoneNum': phoneNum,
       'imageURL': imageURL,
-      'cart': cart,
     });
   }
 
@@ -185,12 +185,18 @@ class DatabaseService {
       'salePrice': salePrice,
       'paxWanted': paxWanted,
       'imageURL': imageURL,
+      'datetime': DateTime.now(),
     });
   }
 
   //returning the list of items in the cart
   List<Cart> _cartListFromSS(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
+      Timestamp dt = doc.data()['datetime'] as Timestamp;
+      DateTime daTi = dt.toDate();
+
+      String dateTime =
+          '${daTi.day.toString().padLeft(2, '0')}/${daTi.month.toString().padLeft(2, '0')}/${daTi.year.toString().padLeft(2, '0')} ${DateFormat('jm').format(daTi)}';
       return Cart(
         cid: doc.data()['cid'] ?? '',
         cuid: doc.data()['cuid'] ?? '',
@@ -200,6 +206,7 @@ class DatabaseService {
         salePrice: doc.data()['salePrice'] ?? 0.0,
         paxWanted: doc.data()['paxWanted'] ?? 0,
         imageURL: doc.data()['question'] ?? '',
+        datetime: dateTime ?? '00/00/0000 00.00xx',
       );
     }).toList();
   }
@@ -269,15 +276,18 @@ class DatabaseService {
             .set(element.data());
       });
     });
+    DateTime datetime = DateTime.now();
+    String date =
+        '${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year.toString().padLeft(2, '0')}';
 
     return await newOrderDoc.set({
       'oid': newOrderDoc.id,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
-      'pickUpTime':
-          DateTime.now().add(Duration(minutes: int.parse(pickUpTime))),
-      'ordertime': DateTime.now(),
+      'date': date,
+      'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
+      'orderTime': datetime,
       'totalPrice': totalPrice,
     });
   }
@@ -306,8 +316,31 @@ class DatabaseService {
       'message': message,
       'pickUpTime':
           DateTime.now().add(Duration(minutes: int.parse(pickUpTime))),
-      'ordertime': DateTime.now(),
+      'orderTime': DateTime.now(),
       'totalPrice': totalPrice,
+    });
+  }
+
+  // void deleteCart() {
+  //   Future<QuerySnapshot> cart =
+  //       customerCollection.doc(uid).collection('cart').get();
+  //   cart.then((value) {
+  //     value.docs.forEach((element) {
+  //       customerCollection.doc(uid).collection('cart').doc(element.id).delete();
+  //     });
+  //   });
+  // }
+
+  //update the number of pax of food after customer places an order
+  void updatePax(int pax) async {
+    Future<QuerySnapshot> foodToUpdatePax =
+        restaurantCollection.doc(uid).collection('food').get();
+    foodToUpdatePax.then((value) {
+      value.docs.forEach((element) {
+        restaurantCollection.doc(uid).collection('food').doc(fid).update({
+          'pax': pax,
+        });
+      });
     });
   }
 }

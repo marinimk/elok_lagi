@@ -40,11 +40,11 @@ class AuthService {
 
       //create a new doc for the customer with the uid
       await DatabaseService(uid: user.uid).updateCustomerData(
-          'username',
-          'location',
-          'phoneNum',
-          'https://firebasestorage.googleapis.com/v0/b/elok-lagi.appspot.com/o/dafultUser.png?alt=media&token=d817ae55-f30c-47c6-bd75-30348e18eb73',
-          ['cart']);
+        'username',
+        'location',
+        'phoneNum',
+        'https://firebasestorage.googleapis.com/v0/b/elok-lagi.appspot.com/o/dafultUser.png?alt=media&token=d817ae55-f30c-47c6-bd75-30348e18eb73',
+      );
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());

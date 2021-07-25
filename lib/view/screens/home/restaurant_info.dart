@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:elok_lagi/models/restaurant.dart';
 import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/view/screens/home/food_list.dart';

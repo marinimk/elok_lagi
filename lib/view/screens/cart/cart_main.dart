@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/master.dart';
 import 'package:elok_lagi/models/cart.dart';
@@ -62,21 +65,53 @@ class _CartState extends State<CartMain> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CartContent(
-                                          cuid: cart[index].cuid,
-                                          cid: cart[index].cid,
-                                          ruid: cart[index].ruid)));
-                            },
-                            child: Card(
-                                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                child: ListTile(
-                                  //todo: maybe instead of the cid, letak the datetime of when the cart was made.
-                                  title: Text('cart main : ${cart[index].cid}'),
-                                )));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartContent(
+                                        cuid: cart[index].cuid,
+                                        cid: cart[index].cid,
+                                        ruid: cart[index].ruid)));
+                          },
+                          onLongPress: () =>
+                              awesomeDialog(context, cart, index),
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            margin: EdgeInsets.all(20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cart[index].cid,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Text('Created : ${cart[index].datetime}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 18)),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  size: 40,
+                                  color: Colors.black38,
+                                )
+                              ],
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -86,5 +121,27 @@ class _CartState extends State<CartMain> {
         }
       },
     );
+  }
+
+  AwesomeDialog awesomeDialog(
+      BuildContext context, List<Cart> cart, int index) {
+    return AwesomeDialog(
+      context: context,
+      borderSide: BorderSide(width: 5, color: colorsConst[100]),
+      dialogType: DialogType.WARNING,
+      animType: AnimType.SCALE,
+      title: 'Are you sure you want to empty your cart?',
+      // desc: 'Your ${cart[index].cid}?',
+      btnCancelText: 'Cancel',
+      btnOkText: 'Yes',
+      btnCancelOnPress: () {
+        setState(() {});
+      },
+      btnOkOnPress: () async {
+        DatabaseService(uid: cart[index].cuid).deleteCart();
+        //todo pop back to master T_T
+        Navigator.pop(context);
+      },
+    )..show();
   }
 }

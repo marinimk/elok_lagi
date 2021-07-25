@@ -36,7 +36,7 @@ class _CartContentState extends State<CartContent> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Users>(context);
-    Size _screenSize = MediaQuery.of(context).size;
+    // Size _screenSize = MediaQuery.of(context).size;
     return StreamBuilder<RestaurantData>(
       stream: DatabaseService(uid: widget.ruid).restaurantData,
       builder: (context, snapshot) {
@@ -69,7 +69,7 @@ class _CartContentState extends State<CartContent> {
                   onPressed: () async {
                     print(await DatabaseService(uid: user.uid)
                         .calcCartTotalPrice());
-                    updateProfileBottomSheet(
+                    placeOrder(
                         context,
                         restaurant,
                         user.uid,
@@ -87,8 +87,8 @@ class _CartContentState extends State<CartContent> {
     );
   }
 
-  Future updateProfileBottomSheet(BuildContext context,
-      RestaurantData restaurant, String cuid, double totalPrice) {
+  Future placeOrder(BuildContext context, RestaurantData restaurant,
+      String cuid, double totalPrice) {
     Size _screenSize = MediaQuery.of(context).size;
     return showModalBottomSheet(
       // isDismissible: true,
@@ -158,7 +158,6 @@ class _CartContentState extends State<CartContent> {
                 child: Column(
                   children: [
                     ConfirmOrder(),
-                    // SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -173,7 +172,8 @@ class _CartContentState extends State<CartContent> {
                                   .createOrderCustomer(cuid, restaurant.uid,
                                       _message, _pickUpTime, totalPrice);
 
-                              await DatabaseService(uid: restaurant.uid, fid: cuid)
+                              await DatabaseService(
+                                      uid: restaurant.uid, fid: cuid)
                                   .createOrderMerchant(cuid, restaurant.uid,
                                       _message, _pickUpTime, totalPrice);
 

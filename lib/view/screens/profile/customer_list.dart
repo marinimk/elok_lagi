@@ -13,10 +13,9 @@ class _CustomerListState extends State<CustomerList> {
   Widget build(BuildContext context) {
     final customer = Provider.of<CustomerData>(context);
     return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (context, index) {
-        return CustomerTile(customer: customer);
-      },
-    );
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return CustomerTile(customer: customer);
+        });
   }
 }

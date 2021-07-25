@@ -3,8 +3,9 @@ class Order {
   final String cuid;
   final String ruid;
   final String message;
+  final String date;
   final String pickUpTime;
-  final String ordertime;
+  final String orderTime;
   final double totalPrice;
 
   Order(
@@ -12,7 +13,8 @@ class Order {
       this.cuid,
       this.ruid,
       this.message,
+      this.date,
       this.pickUpTime,
-      this.ordertime,
+      this.orderTime,
       this.totalPrice});
 }

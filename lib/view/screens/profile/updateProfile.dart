@@ -98,8 +98,7 @@ class UpdateProfileState extends State<UpdateProfile> {
                                     _username ?? custData.username,
                                     _location ?? custData.location,
                                     _phoneNum ?? custData.phoneNum,
-                                    _userImageUrl ?? custData.imageURL,
-                                    []);
+                                    _userImageUrl ?? custData.imageURL);
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Data Saved')));
                           }

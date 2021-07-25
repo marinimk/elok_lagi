@@ -3,6 +3,7 @@ import 'package:elok_lagi/controller/auth.dart';
 import 'package:elok_lagi/view/screens/profile/profile_picture.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/screens/profile/updateProfile.dart';
+import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:elok_lagi/controller/database.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final AuthService _auth = AuthService();
+  bool loading = false;
+  // final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -25,31 +27,33 @@ class _ProfileState extends State<Profile> {
         MediaQuery.of(context).padding.bottom -
         kToolbarHeight;
     final user = Provider.of<Users>(context);
-    return StreamProvider<CustomerData>.value(
-      value: DatabaseService(uid: user.uid).customerData,
-      initialData: CustomerData(),
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => updateProfileBottomSheet(context),
-          child: Icon(Icons.create),
-        ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: h * 0.35,
-              color: colorsConst[100],
-              child: Center(
-                child: ProfilePicture(),
+    return loading
+        ? Loading()
+        : StreamProvider<CustomerData>.value(
+            value: DatabaseService(uid: user.uid).customerData,
+            initialData: CustomerData(),
+            child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => updateProfileBottomSheet(context),
+                child: Icon(Icons.create),
+              ),
+              body: Column(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: h * 0.35,
+                    color: colorsConst[100],
+                    child: Center(
+                      child: ProfilePicture(),
+                    ),
+                  ),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: CustomerList()),
+                ],
               ),
             ),
-            Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: CustomerList()),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Future updateProfileBottomSheet(BuildContext context) {
