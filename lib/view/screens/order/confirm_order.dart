@@ -1,7 +1,6 @@
 import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/models/cart.dart';
 import 'package:elok_lagi/models/users.dart';
-import 'package:elok_lagi/view/screens/cart/cart_tile.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

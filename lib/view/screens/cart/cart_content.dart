@@ -3,8 +3,10 @@ import 'package:elok_lagi/models/restaurant.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_list.dart';
 import 'package:elok_lagi/view/screens/order/confirm_order.dart';
+import 'package:elok_lagi/view/screens/order/order_summary.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
+import 'package:elok_lagi/view/widgets/elAppBar_2.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,7 @@ class _CartContentState extends State<CartContent> {
         if (snapshot.hasData) {
           final restaurant = snapshot.data;
           return Scaffold(
-            appBar: ElAppBar(),
+            appBar: ElAppBar2(),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               // height: _screenSize.height * 0.2,
@@ -67,8 +69,8 @@ class _CartContentState extends State<CartContent> {
                   label:
                       buttonTextRow(Icons.shopping_bag_outlined, 'Place Order'),
                   onPressed: () async {
-                    print(await DatabaseService(uid: user.uid)
-                        .calcCartTotalPrice());
+                    // print(await DatabaseService(uid: user.uid)
+                    //     .calcCartTotalPrice());
                     placeOrder(
                         context,
                         restaurant,
@@ -177,7 +179,14 @@ class _CartContentState extends State<CartContent> {
                                   .createOrderMerchant(cuid, restaurant.uid,
                                       _message, _pickUpTime, totalPrice);
 
-                              Navigator.pop(context);
+                              DatabaseService(uid: cuid).deleteCart();
+
+                              // todo push screen to an order summary
+                              
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderSummary()));
                             },
                             child: buttonTextRow(Icons.check_circle, 'CONFIRM'),
                           ),

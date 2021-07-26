@@ -27,17 +27,19 @@ class _FoodListState extends State<FoodList> {
             final food = snapshot.data;
             return Scaffold(
               body: Container(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 height: _screenHeight * 0.7,
                 child: ListView.builder(
                   itemCount: food.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        updateProfileBottomSheet(context, food, index);
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => ));
-                      },
-                      child: Card(
+                      onTap: () =>
+                          updateProfileBottomSheet(context, food, index),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: FoodTile(food: food[index])),
                     );

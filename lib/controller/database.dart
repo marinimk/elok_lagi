@@ -10,7 +10,9 @@ import 'package:intl/intl.dart';
 class DatabaseService {
   final String uid;
   final String fid;
-  DatabaseService({@required this.uid, this.fid});
+  final String ruid;
+  final String cid;
+  DatabaseService({@required this.uid, this.fid, this.ruid, this.cid});
 
   // collection reference
   final CollectionReference customerCollection =
@@ -102,12 +104,20 @@ class DatabaseService {
   //getting the list food in the restaurant
   List<Food> _foodListFromSS(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
+      Timestamp dtTS = doc.data()['datetime'] as Timestamp;
+      DateTime dtDT = dtTS.toDate();
+      String date =
+          '${dtDT.day.toString().padLeft(2, '0')}/${dtDT.month.toString().padLeft(2, '0')}/${dtDT.year.toString().padLeft(2, '0')}';
+
+      String datetime = '$date ${DateFormat('jm').format(dtDT)}';
+
       return Food(
         fid: doc.data()['fid'] ?? '',
         name: doc.data()['name'] ?? '',
         description: doc.data()['description'] ?? '',
         oriPrice: doc.data()['oriPrice'] ?? 0.0,
         salePrice: doc.data()['salePrice'] ?? 0.0,
+        datetime: datetime ?? '00/00/0000 00.00',
         pax: doc.data()['pax'] ?? 0,
         imageURL: doc.data()['imageURL'] ?? '',
       );
@@ -118,18 +128,27 @@ class DatabaseService {
     return restaurantCollection
         .doc(uid)
         .collection('food')
+        .orderBy('datetime', descending: true)
         .snapshots()
         .map(_foodListFromSS);
   }
 
   //returning a single food item int
   Food _foodDataFromSS(DocumentSnapshot snapshot) {
+    Timestamp dtTS = snapshot.data()['datetime'] as Timestamp;
+    DateTime dtDT = dtTS.toDate();
+    String date =
+        '${dtDT.day.toString().padLeft(2, '0')}/${dtDT.month.toString().padLeft(2, '0')}/${dtDT.year.toString().padLeft(2, '0')}';
+
+    String datetime = '$date ${DateFormat('jm').format(dtDT)}';
+
     return Food(
       fid: snapshot.data()['fid'] ?? '',
       name: snapshot.data()['name'] ?? '',
       description: snapshot.data()['description'] ?? '',
       oriPrice: snapshot.data()['oriPrice'] ?? 0.0,
       salePrice: snapshot.data()['salePrice'] ?? 0.0,
+      datetime: datetime ?? '00/00/0000 00.00',
       pax: snapshot.data()['pax'] ?? 0,
       imageURL: snapshot.data()['imageURL'] ?? '',
     );
@@ -159,7 +178,7 @@ class DatabaseService {
     return faqCollection.snapshots().map(_faqListFromSS);
   }
 
-  //returning a single food item int
+  //returning a single faq
   FAQ _faqDataFromSS(DocumentSnapshot snapshot) {
     return FAQ(
       faqid: snapshot.data()['faqid'] ?? '',
@@ -236,9 +255,45 @@ class DatabaseService {
     });
   }
 
-  //delete item from cart
-  Future<void> deleteFoodFromCart() async =>
-      await customerCollection.doc(uid).collection('cart').doc(fid).delete();
+  //delete item from cart and reupdating the number of pax of the food
+  Future<void> deleteFoodFromCart(int pax) async {
+    int currFoodPax;
+    await restaurantCollection
+        .doc(ruid)
+        .collection('food')
+        .doc(fid)
+        .get()
+        .then((value) {
+      currFoodPax = value.data()['pax'];
+    });
+
+    int newPax = currFoodPax + pax;
+
+    await customerCollection.doc(uid).collection('cart').doc(cid).delete();
+    restaurantCollection.doc(ruid).collection('food').doc(fid).update({
+      'pax': newPax,
+    });
+  }
+
+  //checking if the food is already in the cart or not
+  Future<bool> isFoodIsAlreadyInCart(String id) async {
+    String cartFood;
+    bool alreadyIn, notIn = false;
+
+    await customerCollection.doc(uid).collection('cart').get().then((value) {
+      value.docs.forEach((element) {
+        cartFood = element.data()['fid'];
+        cartFood == id ? alreadyIn = true : notIn = true;
+      });
+    });
+    if (alreadyIn == true) {
+      return true;
+    } else if (notIn == true) {
+      return false;
+    } else {
+      return false;
+    }
+  }
 
   //calculating the total price in the cart
   Future calcCartTotalPrice() async {
@@ -309,27 +364,22 @@ class DatabaseService {
       });
     });
 
+    DateTime datetime = DateTime.now();
+    String date =
+        '${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year.toString().padLeft(2, '0')}';
+
     return await newOrderDoc.set({
       'oid': newOrderDoc.id,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
+      'date': date,
       'pickUpTime':
           DateTime.now().add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': DateTime.now(),
       'totalPrice': totalPrice,
     });
   }
-
-  // void deleteCart() {
-  //   Future<QuerySnapshot> cart =
-  //       customerCollection.doc(uid).collection('cart').get();
-  //   cart.then((value) {
-  //     value.docs.forEach((element) {
-  //       customerCollection.doc(uid).collection('cart').doc(element.id).delete();
-  //     });
-  //   });
-  // }
 
   //update the number of pax of food after customer places an order
   void updatePax(int pax) async {

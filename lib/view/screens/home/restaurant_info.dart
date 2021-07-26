@@ -48,12 +48,17 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                             width: _screenWidth,
                             alignment: Alignment.center,
                           ),
-                          Text(
-                            restaurant.name,
-                            style: TextStyle(
-                                color: colorsConst[50],
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: colorsConst[900].withOpacity(0.5),
+                            child: Text(
+                              restaurant.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: colorsConst[50],
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w700),
+                            ),
                           ),
                         ],
                       ),

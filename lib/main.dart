@@ -1,4 +1,5 @@
 import 'package:elok_lagi/controller/auth.dart';
+import 'package:elok_lagi/view/widgets/generated_routes.dart';
 import 'package:elok_lagi/view/wrapper.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialData: Users(),
       value: AuthService().user,
       child: MaterialApp(
+        onGenerateRoute: GeneratedRoutes.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           canvasColor: Color(0xffF3F7F2),

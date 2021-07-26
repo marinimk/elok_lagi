@@ -2,12 +2,11 @@ import 'dart:ui';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:elok_lagi/controller/database.dart';
-import 'package:elok_lagi/master.dart';
 import 'package:elok_lagi/models/cart.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_content.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
-import 'package:elok_lagi/view/widgets/elAppBar.dart';
+import 'package:elok_lagi/view/widgets/elAppBar_2.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +28,7 @@ class _CartState extends State<CartMain> {
         if (snapshot.hasData) {
           final cart = snapshot.data;
           return Scaffold(
-            appBar: ElAppBar(),
+            appBar: ElAppBar2(),
             body: cart.length == 0
                 ? Container(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
@@ -49,8 +48,8 @@ class _CartState extends State<CartMain> {
                         Container(
                           width: 105,
                           child: ElevatedButton(
-                            onPressed: () => Navigator.popAndPushNamed(
-                                context, '/master.dart'),
+                            onPressed: () =>
+                                Navigator.popAndPushNamed(context, '/master'),
                             child: buttonTextRow(Icons.home, 'Home'),
                             style: elevatedButtonStyle(),
                           ),
@@ -74,8 +73,7 @@ class _CartState extends State<CartMain> {
                                         cid: cart[index].cid,
                                         ruid: cart[index].ruid)));
                           },
-                          onLongPress: () =>
-                              awesomeDialog(context, cart, index),
+                          onLongPress: () => deleteCart(context, cart, index),
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
@@ -123,8 +121,7 @@ class _CartState extends State<CartMain> {
     );
   }
 
-  AwesomeDialog awesomeDialog(
-      BuildContext context, List<Cart> cart, int index) {
+  AwesomeDialog deleteCart(BuildContext context, List<Cart> cart, int index) {
     return AwesomeDialog(
       context: context,
       borderSide: BorderSide(width: 5, color: colorsConst[100]),
