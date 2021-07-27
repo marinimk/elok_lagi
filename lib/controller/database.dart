@@ -270,9 +270,11 @@ class DatabaseService {
     int newPax = currFoodPax + pax;
 
     await customerCollection.doc(uid).collection('cart').doc(cid).delete();
-    restaurantCollection.doc(ruid).collection('food').doc(fid).update({
-      'pax': newPax,
-    });
+    restaurantCollection
+        .doc(ruid)
+        .collection('food')
+        .doc(fid)
+        .update({'pax': newPax});
   }
 
   //checking if the food is already in the cart or not
@@ -315,28 +317,24 @@ class DatabaseService {
     return finalPrice;
   }
 
-  //creating an order subcollection with a fooditem subsubcollection
-  //duplicated from cart into customer
-  Future createOrderCustomer(String cuid, String ruid, String message,
+  //creating an order subcollection for restaurant and customer
+  // with a fooditem subsubcollection duplicated from cart
+  Future<void> createOrder(String cuid, String ruid, String message,
       String pickUpTime, double totalPrice) async {
-    var newOrderDoc = customerCollection.doc(uid).collection('order').doc();
-    customerCollection.doc(uid).collection('cart').get().then((value) {
-      value.docs.forEach((element) {
-        customerCollection
-            .doc(uid)
-            .collection('order')
-            .doc(newOrderDoc.id)
-            .collection('fooditem')
-            .doc()
-            .set(element.data());
-      });
-    });
     DateTime datetime = DateTime.now();
     String date =
         '${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year.toString().padLeft(2, '0')}';
 
-    return await newOrderDoc.set({
-      'oid': newOrderDoc.id,
+    var newOrderDoc = customerCollection.doc(uid).collection('order').doc();
+    var newOrderDocID = newOrderDoc.id;
+
+    //creating order customer
+    await customerCollection
+        .doc(uid)
+        .collection('order')
+        .doc(newOrderDocID)
+        .set({
+      'oid': newOrderDocID,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
@@ -344,40 +342,51 @@ class DatabaseService {
       'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': datetime,
       'totalPrice': totalPrice,
+      'completed': false,
+      'ready': false,
     });
-  }
 
-  //creating an order subcollection with a fooditem subsubcollection
-  //duplicated from cart into restaurant
-  Future createOrderMerchant(String cuid, String ruid, String message,
-      String pickUpTime, double totalPrice) async {
-    var newOrderDoc = restaurantCollection.doc(uid).collection('order').doc();
-    customerCollection.doc(fid).collection('cart').get().then((value) {
+    //to duplicate cart fooditem into order customer fooditem
+    customerCollection.doc(uid).collection('cart').get().then((value) {
       value.docs.forEach((element) {
-        restaurantCollection
+        customerCollection
             .doc(uid)
             .collection('order')
-            .doc(newOrderDoc.id)
+            .doc(newOrderDocID)
             .collection('fooditem')
             .doc()
             .set(element.data());
       });
     });
 
-    DateTime datetime = DateTime.now();
-    String date =
-        '${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year.toString().padLeft(2, '0')}';
-
-    return await newOrderDoc.set({
-      'oid': newOrderDoc.id,
+    //creating order restaurant
+    await restaurantCollection
+        .doc(ruid)
+        .collection('order')
+        .doc(newOrderDocID)
+        .set({
+      'oid': newOrderDocID,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
       'date': date,
-      'pickUpTime':
-          DateTime.now().add(Duration(minutes: int.parse(pickUpTime))),
-      'orderTime': DateTime.now(),
+      'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
+      'orderTime': datetime,
       'totalPrice': totalPrice,
+      'accepted': false,
+    });
+
+    //to duplicate cart fooditem into order restaurant fooditem
+    customerCollection.doc(uid).collection('cart').get().then((value) {
+      value.docs.forEach((element) {
+        restaurantCollection
+            .doc(ruid)
+            .collection('order')
+            .doc(newOrderDocID)
+            .collection('fooditem')
+            .doc()
+            .set(element.data());
+      });
     });
   }
 

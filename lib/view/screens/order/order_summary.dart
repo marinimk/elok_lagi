@@ -1,10 +1,14 @@
+import 'package:elok_lagi/view/widgets/elAppBar_2.dart';
 import 'package:flutter/material.dart';
 
 class OrderSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('order summary screen'),
+    return Scaffold(
+      appBar: ElAppBar2(),
+      body: Container(
+        child: Text('order summary screen'),
+      ),
     );
   }
 }

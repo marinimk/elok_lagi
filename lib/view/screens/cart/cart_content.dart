@@ -170,19 +170,15 @@ class _CartContentState extends State<CartContent> {
                                   Colors.green),
                             ),
                             onPressed: () async {
-                              await DatabaseService(uid: cuid)
-                                  .createOrderCustomer(cuid, restaurant.uid,
-                                      _message, _pickUpTime, totalPrice);
-
                               await DatabaseService(
-                                      uid: restaurant.uid, fid: cuid)
-                                  .createOrderMerchant(cuid, restaurant.uid,
-                                      _message, _pickUpTime, totalPrice);
+                                      uid: cuid, ruid: restaurant.uid)
+                                  .createOrder(cuid, restaurant.uid, _message,
+                                      _pickUpTime, totalPrice);
 
                               DatabaseService(uid: cuid).deleteCart();
 
                               // todo push screen to an order summary
-                              
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
