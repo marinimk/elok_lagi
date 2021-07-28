@@ -342,6 +342,7 @@ class DatabaseService {
       'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': datetime,
       'totalPrice': totalPrice,
+      'accepted' : false,
       'completed': false,
       'ready': false,
     });
@@ -373,7 +374,9 @@ class DatabaseService {
       'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': datetime,
       'totalPrice': totalPrice,
-      'accepted': false,
+      'accepted' : false,
+      'completed': false,
+      'ready': false,
     });
 
     //to duplicate cart fooditem into order restaurant fooditem
