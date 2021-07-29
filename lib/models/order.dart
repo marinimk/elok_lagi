@@ -9,6 +9,8 @@ class Order {
   final double totalPrice;
   final bool ready;
   final bool completed;
+  final bool accepted;
+  final bool pending;
 
   Order({
     this.oid,
@@ -18,8 +20,10 @@ class Order {
     this.date,
     this.pickUpTime,
     this.orderTime,
-    this.totalPrice,  
+    this.totalPrice,
     this.ready,
     this.completed,
+    this.accepted,
+    this.pending,
   });
 }

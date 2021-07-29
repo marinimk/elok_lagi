@@ -5,10 +5,8 @@ import 'package:elok_lagi/view/screens/cart/cart_list.dart';
 import 'package:elok_lagi/view/screens/order/confirm_order.dart';
 import 'package:elok_lagi/view/screens/order/order_summary.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
-import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:elok_lagi/view/widgets/elAppBar_2.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
-import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,8 +67,6 @@ class _CartContentState extends State<CartContent> {
                   label:
                       buttonTextRow(Icons.shopping_bag_outlined, 'Place Order'),
                   onPressed: () async {
-                    // print(await DatabaseService(uid: user.uid)
-                    //     .calcCartTotalPrice());
                     placeOrder(
                         context,
                         restaurant,
@@ -171,18 +167,19 @@ class _CartContentState extends State<CartContent> {
                             ),
                             onPressed: () async {
                               await DatabaseService(
-                                      uid: cuid, ruid: restaurant.uid)
+                                      uid: cuid,
+                                      ruid: restaurant.uid,
+                                      fid: widget.cid)
                                   .createOrder(cuid, restaurant.uid, _message,
                                       _pickUpTime, totalPrice);
 
-                              DatabaseService(uid: cuid).deleteCart();
-
-                              // todo push screen to an order summary
+                              // DatabaseService(uid: cuid).deleteCart();
 
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => OrderSummary()));
+                                      builder: (context) =>
+                                          OrderSummary(widget.cid)));
                             },
                             child: buttonTextRow(Icons.check_circle, 'CONFIRM'),
                           ),

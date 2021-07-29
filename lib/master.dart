@@ -1,9 +1,8 @@
-import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_main.dart';
 import 'package:elok_lagi/view/screens/faq/faq_list.dart';
 import 'package:elok_lagi/view/screens/home/home.dart';
-import 'package:elok_lagi/view/screens/helpdesk.dart';
+import 'package:elok_lagi/view/screens/progress/order_progress.dart';
 import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
@@ -20,7 +19,7 @@ class _MasterState extends State<Master> {
   int currentTab = 0;
   final List<Widget> screens = [
     Home(),
-    HelpDesk(),
+    OrderProgress(),
     FAQList(),
     Profile(),
   ];
@@ -64,7 +63,8 @@ class _MasterState extends State<Master> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     bottomNaviBtn(Home(), 0, Icons.home, 'Home'),
-                    bottomNaviBtn(HelpDesk(), 1, Icons.live_help, 'Help Desk'),
+                    bottomNaviBtn(
+                        OrderProgress(), 1, Icons.fact_check, 'Orders'),
                   ],
                 ),
                 Row(

@@ -3,6 +3,8 @@ import 'package:elok_lagi/models/cart.dart';
 import 'package:elok_lagi/models/customer.dart';
 import 'package:elok_lagi/models/faq.dart';
 import 'package:elok_lagi/models/food.dart';
+import 'package:elok_lagi/models/fooditem.dart';
+import 'package:elok_lagi/models/order.dart';
 import 'package:elok_lagi/models/restaurant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -317,6 +319,7 @@ class DatabaseService {
     return finalPrice;
   }
 
+  //? Order
   //creating an order subcollection for restaurant and customer
   // with a fooditem subsubcollection duplicated from cart
   Future<void> createOrder(String cuid, String ruid, String message,
@@ -325,16 +328,12 @@ class DatabaseService {
     String date =
         '${datetime.day.toString().padLeft(2, '0')}/${datetime.month.toString().padLeft(2, '0')}/${datetime.year.toString().padLeft(2, '0')}';
 
-    var newOrderDoc = customerCollection.doc(uid).collection('order').doc();
-    var newOrderDocID = newOrderDoc.id;
+    // var newOrderDoc = customerCollection.doc(uid).collection('order').doc();
+    // var newOrderDocID = newOrderDoc.id;
 
     //creating order customer
-    await customerCollection
-        .doc(uid)
-        .collection('order')
-        .doc(newOrderDocID)
-        .set({
-      'oid': newOrderDocID,
+    await customerCollection.doc(uid).collection('order').doc(fid).set({
+      'oid': fid,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
@@ -342,7 +341,8 @@ class DatabaseService {
       'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': datetime,
       'totalPrice': totalPrice,
-      'accepted' : false,
+      'pending': true,
+      'accepted': false,
       'completed': false,
       'ready': false,
     });
@@ -353,7 +353,7 @@ class DatabaseService {
         customerCollection
             .doc(uid)
             .collection('order')
-            .doc(newOrderDocID)
+            .doc(fid)
             .collection('fooditem')
             .doc()
             .set(element.data());
@@ -361,12 +361,8 @@ class DatabaseService {
     });
 
     //creating order restaurant
-    await restaurantCollection
-        .doc(ruid)
-        .collection('order')
-        .doc(newOrderDocID)
-        .set({
-      'oid': newOrderDocID,
+    await restaurantCollection.doc(ruid).collection('order').doc(fid).set({
+      'oid': fid,
       'cuid': cuid,
       'ruid': ruid,
       'message': message,
@@ -374,7 +370,8 @@ class DatabaseService {
       'pickUpTime': datetime.add(Duration(minutes: int.parse(pickUpTime))),
       'orderTime': datetime,
       'totalPrice': totalPrice,
-      'accepted' : false,
+      'pending': true,
+      'accepted': false,
       'completed': false,
       'ready': false,
     });
@@ -385,12 +382,118 @@ class DatabaseService {
         restaurantCollection
             .doc(ruid)
             .collection('order')
-            .doc(newOrderDocID)
+            .doc(fid)
             .collection('fooditem')
             .doc()
             .set(element.data());
       });
     });
+
+    deleteCart();
+  }
+
+  //returning the list of orders from a customer
+  List<Order> _orderListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      Timestamp pickUpTS = doc.data()['pickUpTime'] as Timestamp;
+      DateTime pickUpDT = pickUpTS.toDate();
+
+      Timestamp orderTS = doc.data()['orderTime'] as Timestamp;
+      DateTime orderDT = orderTS.toDate();
+
+      String date =
+          '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+      String orderT = DateFormat('jm').format(orderDT);
+      String pickUpT = DateFormat('jm').format(pickUpDT);
+      return Order(
+        oid: doc.data()['oid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        message: doc.data()['message'] ?? '',
+        date: date ?? '00/00/0000',
+        pickUpTime: pickUpT ?? '00:00:00',
+        orderTime: orderT ?? '00:00:00',
+        totalPrice: doc.data()['totalPrice'] ?? 0,
+        ready: doc.data()['ready'] ?? false,
+        completed: doc.data()['completed'] ?? false,
+        accepted: doc.data()['accepted'] ?? false,
+        pending: doc.data()['pending'] ?? true,
+      );
+    }).toList();
+  }
+
+  Stream<List<Order>> get order {
+    return customerCollection
+        .doc(uid)
+        .collection('order')
+        // .orderBy('date', descending: true)
+        .orderBy('pickUpTime', descending: true)
+        .snapshots()
+        .map(_orderListFromSS);
+  }
+
+  //returning a single order
+  Order _orderDataFromSS(DocumentSnapshot snapshot) {
+    Timestamp pickUpTS = snapshot.data()['pickUpTime'] as Timestamp;
+    DateTime pickUpDT = pickUpTS.toDate();
+
+    Timestamp orderTS = snapshot.data()['orderTime'] as Timestamp;
+    DateTime orderDT = orderTS.toDate();
+
+    String date =
+        '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+    String orderT = DateFormat('jm').format(orderDT);
+    String pickUpT = DateFormat('jm').format(pickUpDT);
+
+    return Order(
+      oid: snapshot.data()['oid'] ?? '',
+      cuid: snapshot.data()['cuid'] ?? '',
+      ruid: snapshot.data()['ruid'] ?? '',
+      message: snapshot.data()['message'] ?? '',
+      date: date ?? '00/00/0000',
+      pickUpTime: pickUpT ?? '00:00:00',
+      orderTime: orderT ?? '00:00:00',
+      totalPrice: snapshot.data()['totalPrice'] ?? 0,
+      ready: snapshot.data()['ready'] ?? false,
+      completed: snapshot.data()['completed'] ?? false,
+      accepted: snapshot.data()['accepted'] ?? false,
+      pending: snapshot.data()['pending'] ?? true,
+    );
+  }
+
+  Stream<Order> get orderData {
+    return customerCollection
+        .doc(uid)
+        .collection('order')
+        .doc(fid)
+        .snapshots()
+        .map(_orderDataFromSS);
+  }
+
+  //returning the list of fooditems in the order
+  List<FoodItem> _foodItemListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return FoodItem(
+        cid: doc.data()['cid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        fid: doc.data()['fid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        name: doc.data()['name'] ?? '',
+        salePrice: doc.data()['salePrice'] ?? 0.0,
+        paxWanted: doc.data()['paxWanted'] ?? 0,
+        imageURL: doc.data()['imageURL'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<FoodItem>> get foodItem {
+    return customerCollection
+        .doc(uid)
+        .collection('order')
+        .doc(fid)
+        .collection('fooditem')
+        .snapshots()
+        .map(_foodItemListFromSS);
   }
 
   //update the number of pax of food after customer places an order
