@@ -4,6 +4,7 @@ import 'package:elok_lagi/models/customer.dart';
 import 'package:elok_lagi/models/faq.dart';
 import 'package:elok_lagi/models/food.dart';
 import 'package:elok_lagi/models/fooditem.dart';
+import 'package:elok_lagi/models/history.dart';
 import 'package:elok_lagi/models/order.dart';
 import 'package:elok_lagi/models/restaurant.dart';
 import 'package:flutter/cupertino.dart';
@@ -279,6 +280,19 @@ class DatabaseService {
         .update({'pax': newPax});
   }
 
+  Future<void> submitFeedback(String feedback, int rating) async {
+    customerCollection
+        .doc(uid)
+        .collection('acceptHistory')
+        .doc(fid)
+        .update({'feedback': feedback, 'rating': rating});
+    restaurantCollection
+        .doc(ruid)
+        .collection('acceptHistory')
+        .doc(fid)
+        .update({'feedback': feedback, 'rating': rating});
+  }
+
   //checking if the food is already in the cart or not
   Future<bool> isFoodIsAlreadyInCart(String id) async {
     String cartFood;
@@ -507,5 +521,266 @@ class DatabaseService {
         });
       });
     });
+  }
+
+  void deleteOrder() {
+    var toDelete = customerCollection.doc(uid).collection('order').doc(fid);
+
+    //delete the fooditems in order
+
+    Future<QuerySnapshot> foodItemInCustAccept =
+        toDelete.collection('fooditem').get();
+    foodItemInCustAccept.then((value) {
+      value.docs.forEach((element) {
+        toDelete.collection('fooditem').doc(element.id).delete();
+      });
+    });
+
+    //delete order
+    toDelete.delete();
+  }
+
+  Future createHistoryFromAccept() async {
+    var orderCust = customerCollection.doc(uid).collection('order').doc(fid);
+    var historyCustSub =
+        customerCollection.doc(uid).collection('acceptHistory').doc(fid);
+
+    // duplicating order into history
+    orderCust.get().then((value) {
+      historyCustSub.set(value.data());
+      historyCustSub.update({
+        'ahid': fid,
+        'ready': true,
+        'completed': false,
+        'aid': FieldValue.delete(),
+        'oid': FieldValue.delete(),
+        'pending': false,
+      });
+    });
+
+    //duplicating the fooditem from order into history
+    orderCust.collection('fooditem').get().then((value) {
+      value.docs.forEach((element) {
+        customerCollection
+            .doc(uid)
+            .collection('acceptHistory')
+            .doc(fid)
+            .collection('fooditem')
+            .doc()
+            .set(element.data());
+      });
+    });
+
+    deleteOrder();
+  }
+
+  //returning the list of history orders in a restaurant
+  List<AcceptHistory> _acceptHistoryListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      Timestamp pickUpTS = doc.data()['pickUpTime'] as Timestamp;
+      DateTime pickUpDT = pickUpTS.toDate();
+
+      Timestamp orderTS = doc.data()['orderTime'] as Timestamp;
+      DateTime orderDT = orderTS.toDate();
+
+      String datee =
+          '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+      String orderT = DateFormat('jm').format(orderDT);
+      String pickUpT = DateFormat('jm').format(pickUpDT);
+      return AcceptHistory(
+        ahid: doc.data()['ahid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        message: doc.data()['message'] ?? '',
+        date: doc.data()['date'] ?? '00/00/0000',
+        pickUpTime: pickUpT ?? '00:00:00',
+        orderTime: orderT ?? '00:00:00',
+        totalPrice: doc.data()['totalPrice'] ?? 0,
+        ready: doc.data()['ready'] ?? false,
+        completed: doc.data()['completed'] ?? false,
+        accepted: doc.data()['accepted'] ?? false,
+        reason: doc.data()['reason'] ?? '',
+        pending: doc.data()['pending'] ?? true,
+      );
+    }).toList();
+  }
+
+  Stream<List<AcceptHistory>> get acceptHistory {
+    return customerCollection
+        .doc(uid)
+        .collection('acceptHistory')
+        // .orderBy('date', descending: true)
+        // .orderBy('pickUpTime', descending: true)
+        .snapshots()
+        .map(_acceptHistoryListFromSS);
+  }
+
+  //returning a single history order
+  AcceptHistory _acceptHistoryDataFromSS(DocumentSnapshot snapshot) {
+    Timestamp pickUpTS = snapshot.data()['pickUpTime'] as Timestamp;
+    DateTime pickUpDT = pickUpTS.toDate();
+
+    Timestamp orderTS = snapshot.data()['orderTime'] as Timestamp;
+    DateTime orderDT = orderTS.toDate();
+
+    String datee =
+        '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+    String orderT = DateFormat('jm').format(orderDT);
+    String pickUpT = DateFormat('jm').format(pickUpDT);
+    return AcceptHistory(
+      ahid: snapshot.data()['ahid'] ?? '',
+      cuid: snapshot.data()['cuid'] ?? '',
+      ruid: snapshot.data()['ruid'] ?? '',
+      message: snapshot.data()['message'] ?? '',
+      date: snapshot.data()['date'] ?? '00/00/0000',
+      pickUpTime: pickUpT ?? '00:00:00',
+      orderTime: orderT ?? '00:00:00',
+      totalPrice: snapshot.data()['totalPrice'] ?? 0,
+      ready: snapshot.data()['ready'] ?? false,
+      completed: snapshot.data()['completed'] ?? false,
+      accepted: snapshot.data()['accepted'] ?? false,
+      reason: snapshot.data()['reason'] ?? '',
+      pending: snapshot.data()['pending'] ?? true,
+    );
+  }
+
+  Stream<AcceptHistory> get acceptHistoryData {
+    return customerCollection
+        .doc(uid)
+        .collection('acceptHistory')
+        .doc(fid)
+        .snapshots()
+        .map(_acceptHistoryDataFromSS);
+  }
+
+  //returning the list of fooditems in the history order
+  List<FoodItem> _acceptHistoryFoodItemListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return FoodItem(
+        cid: doc.data()['cid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        fid: doc.data()['fid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        name: doc.data()['name'] ?? '',
+        salePrice: doc.data()['salePrice'] ?? 0.0,
+        paxWanted: doc.data()['paxWanted'] ?? 0,
+        imageURL: doc.data()['imageURL'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<FoodItem>> get acceptHistoryFoodItem {
+    return customerCollection
+        .doc(uid)
+        .collection('acceptHistory')
+        .doc(fid)
+        .collection('fooditem')
+        .snapshots()
+        .map(_acceptHistoryFoodItemListFromSS);
+  }
+
+  //returning the list of history orders in a restaurant
+  List<DeclineHistory> _declineHistoryListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      Timestamp pickUpTS = doc.data()['pickUpTime'] as Timestamp;
+      DateTime pickUpDT = pickUpTS.toDate();
+
+      Timestamp orderTS = doc.data()['orderTime'] as Timestamp;
+      DateTime orderDT = orderTS.toDate();
+
+      String datee =
+          '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+      String orderT = DateFormat('jm').format(orderDT);
+      String pickUpT = DateFormat('jm').format(pickUpDT);
+      return DeclineHistory(
+        dhid: doc.data()['dhid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        message: doc.data()['message'] ?? '',
+        date: doc.data()['date'] ?? '00/00/0000',
+        pickUpTime: pickUpT ?? '00:00:00',
+        orderTime: orderT ?? '00:00:00',
+        totalPrice: doc.data()['totalPrice'] ?? 0,
+        ready: doc.data()['ready'] ?? false,
+        completed: doc.data()['completed'] ?? false,
+        accepted: doc.data()['accepted'] ?? false,
+        reason: doc.data()['reason'] ?? '',
+        pending: doc.data()['pending'] ?? true,
+      );
+    }).toList();
+  }
+
+  Stream<List<DeclineHistory>> get declineHistory {
+    return customerCollection
+        .doc(uid)
+        .collection('declineHistory')
+        .orderBy('date', descending: true)
+        // .orderBy('pickUpTime', descending: true)
+        .snapshots()
+        .map(_declineHistoryListFromSS);
+  }
+
+  //returning a single history order
+  DeclineHistory _declineHistoryDataFromSS(DocumentSnapshot snapshot) {
+    Timestamp pickUpTS = snapshot.data()['pickUpTime'] as Timestamp;
+    DateTime pickUpDT = pickUpTS.toDate();
+
+    Timestamp orderTS = snapshot.data()['orderTime'] as Timestamp;
+    DateTime orderDT = orderTS.toDate();
+
+    String datee =
+        '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
+    String orderT = DateFormat('jm').format(orderDT);
+    String pickUpT = DateFormat('jm').format(pickUpDT);
+    return DeclineHistory(
+      dhid: snapshot.data()['dhid'] ?? '',
+      cuid: snapshot.data()['cuid'] ?? '',
+      ruid: snapshot.data()['ruid'] ?? '',
+      message: snapshot.data()['message'] ?? '',
+      date: snapshot.data()['date'] ?? '00/00/0000',
+      pickUpTime: pickUpT ?? '00:00:00',
+      orderTime: orderT ?? '00:00:00',
+      totalPrice: snapshot.data()['totalPrice'] ?? 0,
+      ready: snapshot.data()['ready'] ?? false,
+      completed: snapshot.data()['completed'] ?? false,
+      accepted: snapshot.data()['accepted'] ?? false,
+      reason: snapshot.data()['reason'] ?? '',
+      pending: snapshot.data()['pending'] ?? true,
+    );
+  }
+
+  Stream<DeclineHistory> get declineHistoryData {
+    return customerCollection
+        .doc(uid)
+        .collection('declineHistory')
+        .doc(fid)
+        .snapshots()
+        .map(_declineHistoryDataFromSS);
+  }
+
+  //returning the list of fooditems in the history order
+  List<FoodItem> _declineHistoryFoodItemListFromSS(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return FoodItem(
+        cid: doc.data()['cid'] ?? '',
+        cuid: doc.data()['cuid'] ?? '',
+        fid: doc.data()['fid'] ?? '',
+        ruid: doc.data()['ruid'] ?? '',
+        name: doc.data()['name'] ?? '',
+        salePrice: doc.data()['salePrice'] ?? 0.0,
+        paxWanted: doc.data()['paxWanted'] ?? 0,
+        imageURL: doc.data()['imageURL'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<FoodItem>> get declineHistoryFoodItem {
+    return customerCollection
+        .doc(uid)
+        .collection('declineHistory')
+        .doc(fid)
+        .collection('fooditem')
+        .snapshots()
+        .map(_declineHistoryFoodItemListFromSS);
   }
 }

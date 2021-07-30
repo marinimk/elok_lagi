@@ -1,7 +1,7 @@
 import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/models/order.dart';
 import 'package:elok_lagi/models/users.dart';
-import 'package:elok_lagi/view/screens/order/customer_order.dart';
+import 'package:elok_lagi/view/screens/order/restaurant_order.dart';
 import 'package:elok_lagi/view/screens/order/food_order.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class _OrderSummaryState extends State<OrderSummary> {
             Order order = snapshot.data;
             return Scaffold(
               appBar: AppBar(
-                title: Text('Order #${order.oid}'),
+                title: Text('#${order.oid}'),
               ),
               body: Container(
                 // padding: EdgeInsets.symmetric(vertical: 10),
@@ -36,7 +36,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     divider(),
-                    Expanded(flex: 2, child: CustomerOrder(cuid: user.uid)),
+                    Expanded(flex: 2, child: RestaurantOrder(ruid: order.ruid)),
                     divider(),
                     Expanded(flex: 5, child: FoodOrder(oid: widget.oid)),
                     divider(),
