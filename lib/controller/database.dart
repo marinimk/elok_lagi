@@ -550,11 +550,8 @@ class DatabaseService {
       historyCustSub.set(value.data());
       historyCustSub.update({
         'ahid': fid,
-        'ready': true,
-        'completed': false,
-        'aid': FieldValue.delete(),
+        'completed': true,
         'oid': FieldValue.delete(),
-        'pending': false,
       });
     });
 
@@ -601,6 +598,8 @@ class DatabaseService {
         accepted: doc.data()['accepted'] ?? false,
         reason: doc.data()['reason'] ?? '',
         pending: doc.data()['pending'] ?? true,
+        feedback: doc.data()['feedback'] ?? '',
+        rating: doc.data()['rating'] ?? 0,
       );
     }).toList();
   }
@@ -641,6 +640,8 @@ class DatabaseService {
       accepted: snapshot.data()['accepted'] ?? false,
       reason: snapshot.data()['reason'] ?? '',
       pending: snapshot.data()['pending'] ?? true,
+      feedback: snapshot.data()['feedback'] ?? '',
+      rating: snapshot.data()['rating'] ?? 0,
     );
   }
 
