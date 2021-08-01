@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: GeneratedRoutes.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          canvasColor: Color(0xffF3F7F2),
+          canvasColor: Colors.white,
           primarySwatch: MaterialColor(
             0xff76a973,
             const <int, Color>{

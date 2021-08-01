@@ -65,12 +65,13 @@ class _FoodInfoState extends State<FoodInfo> {
                         priceInfo('Original Price',
                             food.oriPrice.toStringAsFixed(2).toString()),
                         priceInfo('Selling Price',
-                            food.oriPrice.toStringAsFixed(2).toString()),
+                            food.salePrice.toStringAsFixed(2).toString()),
                         SizedBox(
                           height: 20,
                         ),
-                        Align(
+                        Container(
                           alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
                             'Description',
                             style: TextStyle(
@@ -135,7 +136,7 @@ class _FoodInfoState extends State<FoodInfo> {
                               } else {
                                 await DatabaseService(uid: user.uid)
                                     .isCartEmpty();
-                                    
+
                                 bool isFoodIsAlreadyInCart =
                                     await DatabaseService(uid: user.uid)
                                         .isFoodIsAlreadyInCart(food.fid);

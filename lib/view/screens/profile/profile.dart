@@ -34,6 +34,7 @@ class _ProfileState extends State<Profile> {
             initialData: CustomerData(),
             child: Scaffold(
               floatingActionButton: FloatingActionButton(
+                elevation: 0,
                 onPressed: () => updateProfileBottomSheet(context),
                 child: Icon(Icons.create),
               ),

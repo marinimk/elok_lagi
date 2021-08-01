@@ -1,15 +1,17 @@
+import 'package:elok_lagi/view/widgets/constants.dart';
+import 'package:elok_lagi/view/widgets/home/restaurant_category_list.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:elok_lagi/otherprj/models/category.dart' as m;
 
 class Category extends StatelessWidget {
-  // final List<m.Category> foods = [
-  //   m.Category(name: "Beer", image: "assets/images/pic/beer.jpg"),
-  //   m.Category(name: "Wine", image: "assets/images/pic/wine.jpg"),
-  //   m.Category(name: "Meal", image: "assets/images/pic/meal.jpg"),
-  //   m.Category(name: "Fruit", image: "assets/images/pic/fruit.jpg"),
-  //   m.Category(name: "Juices", image: "assets/images/pic/drink.jpg"),
-  // ];
+  final List<String> category = [
+    'Western Food',
+    'Malaysian Food',
+    'Fusion',
+    'Italian',
+    'Desserts',
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,19 +19,41 @@ class Category extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: category.length,
         itemBuilder: (ctx, index) => SizedBox(
           height: 20,
-          child: Card(
-            // margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                SizedBox(width: 5),
-                Icon(Icons.fastfood),
-                SizedBox(width: 5),
-                Text('Western'),
-                SizedBox(width: 5),
-              ],
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          RestaurantCategoryList(category: category[index])));
+            },
+            child: Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 2, color: colorsConstBrown[400]),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(width: 5),
+                  Icon(
+                    Icons.fastfood,
+                    color: colorsConstBrown[300],
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    category[index],
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(width: 5),
+                ],
+              ),
             ),
           ),
         ),

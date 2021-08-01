@@ -1,7 +1,9 @@
 import 'package:elok_lagi/controller/auth.dart';
+import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:bordered_text/bordered_text.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class SignInUp extends StatefulWidget {
   @override
@@ -169,8 +171,11 @@ class _SignInUpState extends State<SignInUp> {
         key: _formKey,
         child: Column(
           children: [
-            buildTextField(Icons.email, "Email", false, true),
-            buildTextField(Icons.lock, "Password", true, false),
+            buildEmailTextField(
+              Icons.email,
+              "Email",
+            ),
+            buildPasswordTextField(Icons.lock, "Password"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -217,8 +222,11 @@ class _SignInUpState extends State<SignInUp> {
         key: _formKey,
         child: Column(
           children: [
-            buildTextField(Icons.email, "Email", false, true),
-            buildTextField(Icons.lock, "Password", true, false),
+            buildEmailTextField(
+              Icons.email,
+              "Email",
+            ),
+            buildPasswordTextField(Icons.lock, "Password"),
             Container(
               width: 200,
               margin: EdgeInsets.only(top: 20),
@@ -329,61 +337,37 @@ class _SignInUpState extends State<SignInUp> {
     );
   }
 
-  Widget buildTextField(
-      IconData icon, String hintText, bool isPassword, bool isEmail) {
+  Widget buildEmailTextField(IconData icon, String hintText) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: TextFormField(
-        validator: (val) {
-          if (val.isEmpty) {
-            if (isEmail) {
-              return 'isi email';
-            } else if (isPassword) {
-              textError = 'isi password';
-            }
-            return textError;
-          } else {
-            return null;
-          }
-        },
-        onChanged: (val) {
-          if (isEmail) {
+          onChanged: (val) {
             setState(() => email = val);
-          } else if (isPassword) {
+          },
+          validator: MultiValidator([
+            RequiredValidator(errorText: 'Please enter an email'),
+            EmailValidator(errorText: 'Email must be valid'),
+          ]),
+          keyboardType: TextInputType.emailAddress,
+          decoration: textInputDecoration(icon, hintText)),
+    );
+  }
+
+  Widget buildPasswordTextField(IconData icon, String hintText) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: TextFormField(
+          onChanged: (val) {
             setState(() => password = val);
-          }
-        },
-        obscureText: isPassword,
-        keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            icon,
-            color: Color(0xFFB6C7D1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0XFFA7BCC7),
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0XFFA7BCC7),
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(35.0),
-            ),
-          ),
-          contentPadding: EdgeInsets.all(10),
-          hintText: hintText,
-          hintStyle: TextStyle(
-            fontSize: 14,
-            color: Color(0XFFA7BCC7),
-          ),
-        ),
-      ),
+          },
+          validator: MultiValidator([
+            RequiredValidator(errorText: 'Please enter a password'),
+            MinLengthValidator(6,
+                errorText: 'Password must consist at least 6 characters'),
+          ]),
+          obscureText: true,
+          keyboardType: TextInputType.text,
+          decoration: textInputDecoration(icon, hintText)),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:elok_lagi/models/cart.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_content.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
-import 'package:elok_lagi/view/widgets/elAppBar_2.dart';
+import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

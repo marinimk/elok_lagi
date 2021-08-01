@@ -9,53 +9,58 @@ class FoodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     
       margin: EdgeInsets.all(10),
       child: Row(
         children: [
-          Container(
-            child: (food.imageURL != null)
-                ? Image.network(food.imageURL,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center)
-                : Image.asset(
-                    'assets/images/defaultFood.png',
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                  ),
-            width: 125,
-            height: 125,
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: (food.imageURL != null)
+                  ? Image.network(food.imageURL,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center)
+                  : Image.asset(
+                      'assets/images/defaultFood.png',
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                    ),
+              width: 125,
+              height: 125,
+            ),
           ),
           SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Text(
-                  food.name.inCaps,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(
+                    food.name.inCaps,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 4),
-              Container(
-                child: Text(food.description.inCaps,
-                    style:
-                        TextStyle(fontSize: 15, fontStyle: FontStyle.italic)),
-              ),
-              SizedBox(height: 4),
-              foodInfoCard('Original price: ',
-                  'RM ${food.oriPrice.toStringAsFixed(2).toString()}'),
-              SizedBox(height: 4),
-              foodInfoCard('Selling price: ',
-                  'RM ${food.salePrice.toStringAsFixed(2).toString()}'),
-              SizedBox(height: 4),
-              foodInfoCard('Available pax: ', food.pax.toString()),
-            ],
+                SizedBox(height: 4),
+                Container(
+                  child: Text(food.description.inCaps,
+                      style:
+                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic)),
+                ),
+                SizedBox(height: 4),
+                foodInfoCard('Original price: ',
+                    'RM ${food.oriPrice.toStringAsFixed(2).toString()}'),
+                SizedBox(height: 4),
+                foodInfoCard('Selling price: ',
+                    'RM ${food.salePrice.toStringAsFixed(2).toString()}'),
+                SizedBox(height: 4),
+                foodInfoCard('Available pax: ', food.pax.toString()),
+              ],
+            ),
           ),
         ],
       ),

@@ -30,7 +30,7 @@ class _MasterState extends State<Master> {
     final user = Provider.of<Users>(context);
     return SafeArea(
       child: Scaffold(
-        appBar: ElAppBar(),
+        appBar: ElAppBar2(),
         body: PageStorage(
           child: currentScreen,
           bucket: bucket,
@@ -48,7 +48,7 @@ class _MasterState extends State<Master> {
             }),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          color: colorsConst[900],
+          color: colorsConst[500],
           elevation: 0,
           shape: CircularNotchedRectangle(),
           notchMargin: 10,
@@ -98,12 +98,13 @@ class _MasterState extends State<Master> {
         children: <Widget>[
           Icon(
             icon,
-            color: currentTab == currTab ? colorsConst[500] : Colors.grey,
+            color: currentTab == currTab ? colorsConstBrown[600] : Colors.white,
           ),
           Text(
             title,
             style: TextStyle(
-              color: currentTab == currTab ? colorsConst[500] : Colors.grey,
+              color:
+                  currentTab == currTab ? colorsConstBrown[600] : Colors.white,
             ),
           ),
         ],

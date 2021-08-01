@@ -13,6 +13,19 @@ const colorsConst = {
   900: const Color(0xff2F4C2F), //100%
 };
 
+const colorsConstBrown = {
+  50: const Color(0xffDFD6CD), //10%
+  100: const Color(0xffCFC1B4), //20%
+  200: const Color(0xffBFAC9B), //30%
+  300: const Color(0xffAF9783), //40%
+  400: const Color(0xffA0826A), //50%
+  500: const Color(0xff705A48), //60%
+  600: const Color(0xff705A48), //70%
+  700: const Color(0xff3E3228), //80%
+  800: const Color(0xff251E18), //90%
+  900: const Color(0xff0C0A08), //100%
+};
+
 InputDecoration textInputDecoration(IconData icon, String title) {
   return InputDecoration(
     prefixIcon: Icon(
@@ -47,6 +60,7 @@ InputDecoration textInputDecoration(IconData icon, String title) {
 
 ButtonStyle elevatedButtonStyle() {
   return ButtonStyle(
+    elevation: MaterialStateProperty.all(0),
     minimumSize: MaterialStateProperty.all(Size(100, 40)),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(

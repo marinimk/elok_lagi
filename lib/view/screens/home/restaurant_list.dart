@@ -21,64 +21,97 @@ class RestaurantList extends StatelessWidget {
         if (snapshot.hasData) {
           List<RestaurantData> restaurant = snapshot.data;
           return Container(
-            height: 600,
-            padding: EdgeInsets.only(bottom: 180),
+            height: 500,
+            // padding: EdgeInsets.only(bottom: 180),
             child: ListView.builder(
               itemCount: restaurant.length,
               itemBuilder: (context, index) => Container(
-                height: 240,
+                height: 230,
                 width: double.infinity,
                 child: GestureDetector(
                   onTap: () {
-                    print(restaurant[index].uid);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantInfo(
-                                  restaurantID: restaurant[index].uid,
-                                  customerID: user.uid,
-                                )));
+                    restaurant[index].status
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RestaurantInfo(
+                                      restaurantID: restaurant[index].uid,
+                                      customerID: user.uid,
+                                    )))
+                        : print(restaurant[index].status);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
                       ),
                     ),
                     elevation: 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                          ),
-                          child: Image.network(
-                            restaurant[index].imageURL,
-                            width: double.infinity,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
+                        Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                                child: Image.network(restaurant[index].imageURL,
+                                    width: double.infinity,
+                                    height: 150,
+                                    fit: BoxFit.cover)),
+                            restaurant[index].status
+                                ? Container()
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black45.withOpacity(0.3),
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20))),
+                                    height: 150,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton(
+                                              onPressed: () {},
+                                              // splashColor: Colors.transparent,
+                                              child: buttonTextRow(Icons.close,
+                                                  'CURRENTLY CLOSED'),
+                                              style: elevatedButtonStyle()
+                                                  .copyWith(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(Colors.black87),
+                                                animationDuration:
+                                                    Duration(microseconds: 0),
+                                              ))
+                                        ]))
+                          ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text(
-                            restaurant[index].name.capitalizeFirstofEach,
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800),
-                          ),
+                              restaurant[index].name.capitalizeFirstofEach,
+                              style: TextStyle(
+                                  color: colorsConstBrown[400],
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800)),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(restaurant[index].category),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text(restaurant[index].category,
+                              style: TextStyle(
+                                fontSize: 17,
+                              )),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(restaurant[index].location),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text(
+                              restaurant[index].location.capitalizeFirstofEach,
+                              style: TextStyle(
+                                fontSize: 17,
+                              )),
                         )
                       ],
                     ),

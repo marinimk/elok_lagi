@@ -12,10 +12,6 @@ class FoodList extends StatefulWidget {
   FoodList({this.restaurantID});
 }
 
-//Todo: this screen is going to be a combo of restaurant and food
-//todo: restaurant is to display it's information
-//todo: food is to get all
-
 class _FoodListState extends State<FoodList> {
   @override
   Widget build(BuildContext context) {
@@ -35,11 +31,12 @@ class _FoodListState extends State<FoodList> {
                     return GestureDetector(
                       onTap: () =>
                           updateProfileBottomSheet(context, food, index),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
+                      child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 3, color: Colors.red[300]),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: FoodTile(food: food[index])),
                     );

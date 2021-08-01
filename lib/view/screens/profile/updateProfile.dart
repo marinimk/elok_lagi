@@ -79,19 +79,28 @@ class UpdateProfileState extends State<UpdateProfile> {
                               MaterialStateProperty.all<Color>(Colors.green),
                         ),
                         onPressed: () async {
-                          String fileName =
-                              DateTime.now().millisecondsSinceEpoch.toString() +
-                                  basename(_image.path);
-                          Reference firebaseStorageRef =
-                              FirebaseStorage.instance.ref().child(fileName);
-                          UploadTask uploadTask =
-                              firebaseStorageRef.putFile(_image);
-                          TaskSnapshot taskSnapshot = await uploadTask;
-                          await taskSnapshot.ref
-                              .getDownloadURL()
-                              .then((urlImage) {
-                            _userImageUrl = urlImage;
-                          });
+                          String fileName;
+                          Reference firebaseStorageRef;
+                          UploadTask uploadTask;
+                          TaskSnapshot taskSnapshot;
+                          if (_image.path != null) {
+                            fileName = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString() +
+                                basename(_image.path);
+                            firebaseStorageRef =
+                                FirebaseStorage.instance.ref().child(fileName);
+                            uploadTask = firebaseStorageRef.putFile(_image);
+                            taskSnapshot = await uploadTask;
+                            await taskSnapshot.ref
+                                .getDownloadURL()
+                                .then((urlImage) {
+                              _userImageUrl = urlImage;
+                            });
+                          } else {
+                            //todo what to do if the user didnt pick an image
+                          }
+
                           if (!_formKey.currentState.validate()) {
                             await DatabaseService(uid: user.uid)
                                 .updateCustomerData(

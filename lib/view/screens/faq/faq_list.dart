@@ -2,6 +2,7 @@ import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/models/faq.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/faq/faq_data.dart';
+import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,6 @@ class _FAQListState extends State<FAQList> {
           return Scaffold(
             body: Container(
               padding: EdgeInsets.all(5),
-              color: Color(0xffE8E8E8),
               height: double.infinity,
               width: double.infinity,
               child: ListView.builder(
@@ -39,8 +39,10 @@ class _FAQListState extends State<FAQList> {
                     );
                   },
                   child: Card(
+                    elevation: 2,
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 3, color: colorsConstBrown[400]),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Padding(

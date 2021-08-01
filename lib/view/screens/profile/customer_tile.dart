@@ -1,3 +1,4 @@
+import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:elok_lagi/models/customer.dart';
 
@@ -26,11 +27,24 @@ class CustomerTile extends StatelessWidget {
   Card customerInfoCard(
       BuildContext context, IconData icon, String title, String subtitle) {
     return Card(
-      margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 3, color: colorsConstBrown[400]),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
       child: ListTile(
-        leading: Icon(icon),
-        title: Text(title),
-        subtitle: Text(subtitle),
+        leading: Icon(icon, size: 35, color: colorsConstBrown[600]),
+        title: Text(title,
+            style: TextStyle(
+                color: colorsConstBrown[700],
+                fontSize: 17,
+                fontWeight: FontWeight.w600)),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+              color: Colors.black87, fontSize: 16, fontStyle: FontStyle.italic),
+        ),
       ),
     );
   }
