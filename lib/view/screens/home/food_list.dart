@@ -1,6 +1,7 @@
 import 'package:elok_lagi/models/food.dart';
 import 'package:elok_lagi/view/screens/home/food_info.dart';
 import 'package:elok_lagi/view/screens/home/food_tile.dart';
+import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:elok_lagi/controller/database.dart';
@@ -32,9 +33,10 @@ class _FoodListState extends State<FoodList> {
                       onTap: () =>
                           updateProfileBottomSheet(context, food, index),
                       child: Card(
-                          elevation: 2,
+                          color: colorsConstBrown[50],
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 3, color: Colors.red[300]),
+                            // side: BorderSide(width: 3, color: Colors.red[300]),
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 0),

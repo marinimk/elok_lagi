@@ -32,7 +32,8 @@ class AuthService {
   }
 
   // register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password,
+      String username, String phone, String location) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -40,9 +41,9 @@ class AuthService {
 
       //create a new doc for the customer with the uid
       await DatabaseService(uid: user.uid).updateCustomerData(
-        'username',
-        'location',
-        'phoneNum',
+        username,
+        location,
+        phone,
         'https://firebasestorage.googleapis.com/v0/b/elok-lagi.appspot.com/o/dafultUser.png?alt=media&token=d817ae55-f30c-47c6-bd75-30348e18eb73',
       );
       return _userFromFirebaseUser(user);

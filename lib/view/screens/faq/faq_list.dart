@@ -39,9 +39,10 @@ class _FAQListState extends State<FAQList> {
                   },
                   child: Card(
                     elevation: 2,
+                    color: colorsConstBrown[50],
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 3, color: colorsConstBrown[400]),
+                      // side: BorderSide(width: 3, ),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Padding(
@@ -50,7 +51,8 @@ class _FAQListState extends State<FAQList> {
                         title: Text(faq[index].question,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
-                        trailing: Icon(Icons.chevron_right),
+                        trailing: Icon(Icons.chevron_right,
+                            color: colorsConstBrown[500]),
                       ),
                     ),
                   ),

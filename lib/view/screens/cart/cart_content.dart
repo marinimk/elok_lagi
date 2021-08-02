@@ -8,7 +8,6 @@ import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -63,8 +62,7 @@ class _CartContentState extends State<CartContent> {
               padding: EdgeInsets.only(bottom: 20),
               child: FloatingActionButton.extended(
                   elevation: 0,
-                  label:
-                      buttonTextRow(Icons.shopping_bag_outlined, 'Place Order'),
+                  label: buttonTextRow(Icons.shopping_bag, 'Place Order'),
                   onPressed: () async {
                     placeOrder(
                         context,
@@ -165,12 +163,12 @@ class _CartContentState extends State<CartContent> {
                                                   totalPrice);
 
                                           Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    OrderSummary(
-                                                        oid: widget.cid)),
-                                          );
+                                              context,
+                                              PageTransition(
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                  child: OrderSummary(
+                                                      oid: widget.cid)));
                                         }
                                       },
                                       child: buttonTextRow(
@@ -233,19 +231,17 @@ class _CartContentState extends State<CartContent> {
   }
 
   Divider divider() {
-    return Divider(thickness: 2, height: 4);
+    return Divider(thickness: 2, color: Colors.orange[300], height: 0);
   }
 
   Container restaurantInfoInCart(IconData icon, String restaurantInfo) {
     return Container(
-        color: colorsConst[100],
+        color: colorsYellowBanan,
         padding: EdgeInsets.all(2),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(icon),
-          Text(
-            restaurantInfo,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-          )
+          Text(restaurantInfo,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800))
         ]));
   }
 }

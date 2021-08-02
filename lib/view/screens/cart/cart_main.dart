@@ -37,30 +37,28 @@ class _CartState extends State<CartMain> {
                     child: Column(
                       children: [
                         Text(
-                          'Your cart is empty. \nReturn to the Home page to browse the restaurants and add items to your cart',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black45,
-                              fontStyle: FontStyle.italic),
-                        ),
+                            'Your cart is empty. \nReturn to the Home page to browse the restaurants and add items to your cart',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black45,
+                                fontStyle: FontStyle.italic)),
                         SizedBox(height: 10),
                         Container(
-                          width: 105,
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                Navigator.popAndPushNamed(context, '/master'),
-                            child: buttonTextRow(Icons.home, 'Home'),
-                            style: elevatedButtonStyle(),
-                          ),
-                        )
+                            width: 110,
+                            child: ElevatedButton(
+                                onPressed: () => Navigator.popAndPushNamed(
+                                    context, '/master'),
+                                child: buttonTextRow(Icons.home, 'Home'),
+                                style: elevatedButtonStyle()))
                       ],
                     ),
                   )
                 : Container(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                     child: ListView.builder(
                       itemCount: 1,
                       itemBuilder: (context, index) {
@@ -74,36 +72,38 @@ class _CartState extends State<CartMain> {
                                       cid: cart[index].cid,
                                       ruid: cart[index].ruid))),
                           onLongPress: () => deleteCart(context, cart, index),
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: colorsConst[100],
+                          child: Card(
+                            color: colorsConst[100],
+                            shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            margin: EdgeInsets.all(20),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(cart[index].cid,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20)),
-                                        Text(
-                                            'Created : ${cart[index].datetime}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontStyle: FontStyle.italic,
-                                                fontSize: 18))
-                                      ]),
-                                  Icon(Icons.chevron_right,
-                                      size: 40, color: Colors.black38)
-                                ]),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 20),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(cart[index].cid,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
+                                          Text(
+                                              'Created : ${cart[index].datetime}',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 18))
+                                        ]),
+                                    Icon(Icons.chevron_right,
+                                        color: Colors.black38)
+                                  ]),
+                            ),
                           ),
                         );
                       },
@@ -124,7 +124,6 @@ class _CartState extends State<CartMain> {
       dialogType: DialogType.WARNING,
       animType: AnimType.SCALE,
       title: 'Are you sure you want to empty your cart?',
-      // desc: 'Your ${cart[index].cid}?',
       btnCancelText: 'Cancel',
       btnOkText: 'Yes',
       btnCancelOnPress: () {
@@ -132,8 +131,7 @@ class _CartState extends State<CartMain> {
       },
       btnOkOnPress: () async {
         DatabaseService(uid: cart[index].cuid).deleteCart();
-        //todo pop back to master T_T
-        Navigator.pop(context);
+        Navigator.popAndPushNamed(context, '/master');
       },
     )..show();
   }

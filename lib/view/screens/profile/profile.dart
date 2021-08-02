@@ -19,7 +19,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool loading = false;
-  // final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +33,31 @@ class _ProfileState extends State<Profile> {
             initialData: CustomerData(),
             child: Scaffold(
               floatingActionButton: FloatingActionButton(
+                backgroundColor: Color(0xfffce069),
                 elevation: 0,
                 onPressed: () => updateProfileBottomSheet(context),
-                child: Icon(Icons.create),
+                child: Icon(Icons.create, color: colorsConst[800]),
               ),
               body: Column(
                 children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: h * 0.35,
-                    color: colorsConst[100],
-                    child: Center(
-                      child: ProfilePicture(),
-                    ),
-                  ),
+                  Stack(children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/images/daun_transparent.png"),
+                                fit: BoxFit.cover)),
+                        width: MediaQuery.of(context).size.width,
+                        height: h * 0.35),
+                    Container(
+                        color: Colors.white.withOpacity(0.3),
+                        width: MediaQuery.of(context).size.width,
+                        height: h * 0.35),
+                    Container(
+                        child: Center(child: ProfilePicture()),
+                        width: MediaQuery.of(context).size.width,
+                        height: h * 0.35),
+                  ]),
                   Container(
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: CustomerList()),
@@ -69,9 +79,9 @@ class _ProfileState extends State<Profile> {
               child: Container(
                 decoration: BoxDecoration(
                     color: colorsConst[100],
-                    border: Border.all(width: 5, color: colorsConst[300]),
+                    // border: Border.all(width: 5, color: colorsConst[300]),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: 375,
+                height: 500,
                 width: 350,
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/view/screens/home/restaurant_info.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
@@ -18,11 +19,11 @@ class RestaurantList extends StatelessWidget {
         if (snapshot.hasData) {
           List<RestaurantData> restaurant = snapshot.data;
           return Container(
-            height: 480,
+            height: 570,
             child: ListView.builder(
               itemCount: restaurant.length,
               itemBuilder: (context, index) => Container(
-                height: 225,
+                height: 245,
                 width: double.infinity,
                 child: GestureDetector(
                   onTap: () {
@@ -37,6 +38,7 @@ class RestaurantList extends StatelessWidget {
                               )));
                   },
                   child: Card(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20),
@@ -54,7 +56,7 @@ class RestaurantList extends StatelessWidget {
                                   topLeft: Radius.circular(20)),
                               child: Image.network(restaurant[index].imageURL,
                                   width: double.infinity,
-                                  height: 150,
+                                  height: 175,
                                   fit: BoxFit.cover)),
                           restaurant[index].status
                               ? Container()
@@ -63,22 +65,17 @@ class RestaurantList extends StatelessWidget {
                                       color: Colors.black45.withOpacity(0.3),
                                       borderRadius: BorderRadius.vertical(
                                           top: Radius.circular(20))),
-                                  height: 150,
+                                  height: 175,
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         ElevatedButton(
                                             onPressed: null,
-                                            child: Row(children: [
-                                              Icon(Icons.cancel_outlined,
-                                                  color: Colors.white),
-                                              SizedBox(width: 5),
-                                              Text('CURRENTLY CLOSED',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.white))
-                                            ]),
+                                            child: Text('CURRENTLY CLOSED',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white)),
                                             style: elevatedButtonStyle()
                                                 .copyWith(
                                                     backgroundColor:
@@ -88,27 +85,22 @@ class RestaurantList extends StatelessWidget {
                                       ]))
                         ]),
                         Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
                             child: Text(
                                 restaurant[index].name.capitalizeFirstofEach,
-                                style: TextStyle(
-                                    color: colorsConstBrown[400],
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w800))),
+                                style: GoogleFonts.spartan(
+                                    textStyle: TextStyle(
+                                        color: colorsConstBrown[400],
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w800)))),
                         Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Text(restaurant[index].category,
-                                style: TextStyle(fontSize: 16))),
-                        Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
                             child: Text(
-                                restaurant[index]
-                                    .location
-                                    .capitalizeFirstofEach,
-                                style: TextStyle(fontSize: 16))),
+                                '${restaurant[index].category.capitalizeFirstofEach} | ${restaurant[index].location.capitalizeFirstofEach}',
+                                style: GoogleFonts.lustria(
+                                    textStyle: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600)))),
                       ],
                     ),
                   ),

@@ -227,7 +227,7 @@ class DatabaseService {
         name: doc.data()['name'] ?? '',
         salePrice: doc.data()['salePrice'] ?? 0.0,
         paxWanted: doc.data()['paxWanted'] ?? 0,
-        imageURL: doc.data()['question'] ?? '',
+        imageURL: doc.data()['imageURL'] ?? '',
         datetime: dateTime ?? '00/00/0000 00.00xx',
       );
     }).toList();
@@ -441,7 +441,7 @@ class DatabaseService {
         .doc(uid)
         .collection('order')
         // .orderBy('date', descending: true)
-        .orderBy('pickUpTime', descending: true)
+        .orderBy('pickUpTime', descending: false)
         .snapshots()
         .map(_orderListFromSS);
   }
@@ -547,12 +547,26 @@ class DatabaseService {
 
     // duplicating order into history
     orderCust.get().then((value) {
-      historyCustSub.set(value.data());
-      historyCustSub.update({
+      historyCustSub.set({
         'ahid': fid,
+        'cuid': value.data()['cuid'],
+        'ruid': value.data()['ruid'],
+        'message': value.data()['message'],
+        'date': value.data()['date'],
+        'pickUpTime': value.data()['pickUpTime'],
+        'orderTime': value.data()['orderTime'],
+        'totalPrice': value.data()['totalPrice'],
+        'ready': value.data()['ready'],
         'completed': true,
-        'oid': FieldValue.delete(),
+        'accepted': value.data()['accepted'],
+        'reason': value.data()['reason'],
+        'pending': value.data()['pending'],
       });
+      // historyCustSub.update({
+      //   'ahid': fid,
+      //   'completed': true,
+      //   'oid': FieldValue.delete(),
+      // });
     });
 
     //duplicating the fooditem from order into history
@@ -609,7 +623,7 @@ class DatabaseService {
         .doc(uid)
         .collection('acceptHistory')
         // .orderBy('date', descending: true)
-        // .orderBy('pickUpTime', descending: true)
+        .orderBy('pickUpTime', descending: true)
         .snapshots()
         .map(_acceptHistoryListFromSS);
   }
@@ -715,8 +729,8 @@ class DatabaseService {
     return customerCollection
         .doc(uid)
         .collection('declineHistory')
-        .orderBy('date', descending: true)
-        // .orderBy('pickUpTime', descending: true)
+        // .orderBy('date', descending: true)
+        .orderBy('pickUpTime', descending: true)
         .snapshots()
         .map(_declineHistoryListFromSS);
   }

@@ -13,8 +13,8 @@ class CustomerTile extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          customerInfoCard(
-              context, Icons.person_outline, 'Username', customer.username),
+          customerInfoCard(context, Icons.person_outline, 'Username',
+              customer.username.capitalizeFirstofEach),
           customerInfoCard(
               context, Icons.pin_drop_outlined, 'Location', customer.location),
           customerInfoCard(context, Icons.phone_android_outlined,

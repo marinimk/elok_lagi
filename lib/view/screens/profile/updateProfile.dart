@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:elok_lagi/models/users.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class UpdateProfile extends StatefulWidget {
   @override
@@ -62,11 +63,11 @@ class UpdateProfileState extends State<UpdateProfile> {
                       ),
                     ],
                   ),
-                  updateTextFormField(
+                  updateNameTextFormField(
                       Icons.person_outline, 'Username', custData.username),
-                  updateTextFormField(
+                  updateLocationTextFormField(
                       Icons.pin_drop_outlined, 'Location', custData.location),
-                  updateTextFormField(Icons.phone_android_outlined,
+                  updatePhoneTextFormField(Icons.phone_android_outlined,
                       'Phone Number', custData.phoneNum),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,39 +80,30 @@ class UpdateProfileState extends State<UpdateProfile> {
                               MaterialStateProperty.all<Color>(Colors.green),
                         ),
                         onPressed: () async {
-                          String fileName;
-                          Reference firebaseStorageRef;
-                          UploadTask uploadTask;
-                          TaskSnapshot taskSnapshot;
-                          if (_image.path != null) {
-                            fileName = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString() +
-                                basename(_image.path);
-                            firebaseStorageRef =
-                                FirebaseStorage.instance.ref().child(fileName);
-                            uploadTask = firebaseStorageRef.putFile(_image);
-                            taskSnapshot = await uploadTask;
-                            await taskSnapshot.ref
-                                .getDownloadURL()
-                                .then((urlImage) {
-                              _userImageUrl = urlImage;
-                            });
-                          } else {
-                            //todo what to do if the user didnt pick an image
-                          }
-
-                          if (!_formKey.currentState.validate()) {
+                          String fileName =
+                              DateTime.now().millisecondsSinceEpoch.toString() +
+                                  basename(_image.path);
+                          Reference firebaseStorageRef =
+                              FirebaseStorage.instance.ref().child(fileName);
+                          UploadTask uploadTask =
+                              firebaseStorageRef.putFile(_image);
+                          TaskSnapshot taskSnapshot = await uploadTask;
+                          await taskSnapshot.ref
+                              .getDownloadURL()
+                              .then((urlImage) {
+                            _userImageUrl = urlImage;
+                          });
+                          if (_formKey.currentState.validate()) {
                             await DatabaseService(uid: user.uid)
                                 .updateCustomerData(
                                     _username ?? custData.username,
                                     _location ?? custData.location,
                                     _phoneNum ?? custData.phoneNum,
                                     _userImageUrl ?? custData.imageURL);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Data Saved')));
+                            Navigator.pop(context);
                           }
-                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Data Saved')));
                         },
                       ),
                       ElevatedButton(
@@ -135,28 +127,41 @@ class UpdateProfileState extends State<UpdateProfile> {
         });
   }
 
-  Padding updateTextFormField(IconData icon, String title, String initVal) {
+  Padding updateNameTextFormField(IconData icon, String title, String initVal) {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
           initialValue: initVal,
-          validator: (val) => val.isEmpty
-              ? 'please field in your new $widget.title.toLowerCase()'
-              : '',
-          onChanged: (val) => setState(() {
-                switch (title) {
-                  case 'Username':
-                    _username = val;
-                    break;
-                  case 'Location':
-                    _location = val;
-                    break;
-                  case 'Phone Number':
-                    _phoneNum = val;
-                    break;
-                  default:
-                }
-              }),
+          validator: RequiredValidator(errorText: 'Please enter your name'),
+          onChanged: (val) => setState(() => _username = val),
+          decoration: textInputDecoration(icon, title)),
+    );
+  }
+
+  Padding updateLocationTextFormField(
+      IconData icon, String title, String initVal) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: TextFormField(
+          initialValue: initVal,
+          validator: RequiredValidator(errorText: 'Please enter your location'),
+          onChanged: (val) => setState(() => _location = val),
+          decoration: textInputDecoration(icon, title)),
+    );
+  }
+
+  Padding updatePhoneTextFormField(
+      IconData icon, String title, String initVal) {
+    
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: TextFormField(
+          initialValue: initVal,
+          validator: MultiValidator([
+            RequiredValidator(errorText: 'Please enter your phone number'),
+            MinLengthValidator(10, errorText: 'Enter a valid phone number')
+          ]),
+          onChanged: (val) => setState(() => _phoneNum = val),
           decoration: textInputDecoration(icon, title)),
     );
   }

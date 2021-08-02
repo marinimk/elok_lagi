@@ -15,6 +15,7 @@ class FoodTile extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
+              color: Colors.white,
               child: (food.imageURL != null)
                   ? Image.network(food.imageURL,
                       fit: BoxFit.cover,

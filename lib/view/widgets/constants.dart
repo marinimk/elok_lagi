@@ -26,18 +26,20 @@ const colorsConstBrown = {
   900: const Color(0xff0C0A08), //100%
 };
 
+const colorsYellowBanan = Color(0xfffce069);
+
 InputDecoration textInputDecoration(IconData icon, String title) {
   return InputDecoration(
-      prefixIcon: Icon(icon, color: Color(0xFFB6C7D1)),
+      prefixIcon: Icon(icon, color: colorsConstBrown[400]),
       enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0XFFA7BCC7)),
+          borderSide: BorderSide(color: colorsConstBrown[400]),
           borderRadius: BorderRadius.all(Radius.circular(35.0))),
       focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0XFFA7BCC7)),
+          borderSide: BorderSide(color: colorsConstBrown[400]),
           borderRadius: BorderRadius.all(Radius.circular(35.0))),
       contentPadding: EdgeInsets.all(10),
       hintText: title,
-      hintStyle: TextStyle(fontSize: 14, color: Color(0XFFA7BCC7)));
+      hintStyle: TextStyle(fontSize: 14, color: colorsConstBrown[400]));
 }
 
 ButtonStyle elevatedButtonStyle() {
@@ -55,6 +57,7 @@ ButtonStyle circularElevatedButton() {
 
 Row buttonTextRow(IconData icon, String text) {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Icon(icon),
       SizedBox(width: 5),

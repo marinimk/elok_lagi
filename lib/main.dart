@@ -1,8 +1,10 @@
 import 'package:elok_lagi/controller/auth.dart';
+import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/generated_routes.dart';
 import 'package:elok_lagi/view/wrapper.dart';
 import 'package:elok_lagi/models/users.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: GeneratedRoutes.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
+          // fontFamily: GoogleFonts.getFont('fjallaOne'),
           canvasColor: Colors.white,
           primarySwatch: MaterialColor(
             0xff76a973,

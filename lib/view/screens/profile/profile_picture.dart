@@ -36,7 +36,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
                 ),
                 SizedBox(height: 5.0),
                 Container(
-                  width: 112,
+                  width: 120,
                   child: ElevatedButton(
                     onPressed: () async => await _auth.signOut(),
                     child: buttonTextRow(Icons.logout, 'Logout'),

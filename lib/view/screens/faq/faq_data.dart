@@ -24,7 +24,7 @@ class _FAQDataState extends State<FAQData> {
             return Scaffold(
               appBar: ElAppBar2(),
               body: Container(
-                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -32,7 +32,7 @@ class _FAQDataState extends State<FAQData> {
                         padding:
                             EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                         decoration: BoxDecoration(
-                          color: colorsConst[400],
+                          color: colorsConstBrown[300],
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -44,8 +44,7 @@ class _FAQDataState extends State<FAQData> {
                         padding:
                             EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                         decoration: BoxDecoration(
-                          color: colorsConst[100],
-                          border: Border.all(width: 5, color: colorsConst[400]),
+                          color: colorsConstBrown[100],
                           borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(20),
                             bottomLeft: Radius.circular(20),

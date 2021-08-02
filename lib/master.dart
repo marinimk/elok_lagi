@@ -7,6 +7,7 @@ import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +37,10 @@ class _MasterState extends State<Master> {
           child: currentScreen,
           bucket: bucket,
         ),
-        //TODO: the FAB follows the keyboard kalau bukak (https://github.com/bizz84/bottom_bar_fab_flutter/issues/2)
         floatingActionButton: FloatingActionButton(
+            backgroundColor: Color(0xfffce069),
             elevation: 0,
-            child: Icon(Icons.shopping_bag_outlined),
+            child: Icon(Icons.shopping_bag, color: colorsConst[800]),
             onPressed: () => Navigator.push(
                 context,
                 PageTransition(
@@ -47,7 +48,7 @@ class _MasterState extends State<Master> {
                     child: CartMain(cuid: user.uid)))),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          color: colorsConst[500],
+          color: colorsConst[800],
           elevation: 0,
           shape: CircularNotchedRectangle(),
           notchMargin: 10,
@@ -61,9 +62,9 @@ class _MasterState extends State<Master> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    bottomNaviBtn(Home(), 0, Icons.home, 'Home'),
+                    bottomNaviBtn(Home(), 0, Icons.home, 'HOME'),
                     bottomNaviBtn(
-                        OrderProgress(), 1, Icons.fact_check, 'Orders'),
+                        OrderProgress(), 1, Icons.fact_check, 'ORDERS'),
                   ],
                 ),
                 Row(
@@ -71,7 +72,7 @@ class _MasterState extends State<Master> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     bottomNaviBtn(FAQList(), 2, Icons.question_answer, 'FAQ'),
-                    bottomNaviBtn(Profile(), 3, Icons.person, 'Profile'),
+                    bottomNaviBtn(Profile(), 3, Icons.person, 'PROFILE'),
                   ],
                 )
               ],
@@ -85,6 +86,8 @@ class _MasterState extends State<Master> {
   MaterialButton bottomNaviBtn(
       Widget page, int currTab, IconData icon, String title) {
     return MaterialButton(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       minWidth: 40,
       onPressed: () => setState(
         () {
@@ -95,17 +98,17 @@ class _MasterState extends State<Master> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            icon,
-            color: currentTab == currTab ? colorsConstBrown[600] : Colors.white,
-          ),
-          Text(
-            title,
-            style: TextStyle(
+          Icon(icon,
               color:
-                  currentTab == currTab ? colorsConstBrown[600] : Colors.white,
-            ),
-          ),
+                  currentTab == currTab ? Color(0xfffce069) : colorsConst[400]),
+          SizedBox(height: 2),
+          Text(title,
+              style: GoogleFonts.spartan(
+                  textStyle: TextStyle(
+                      color: currentTab == currTab
+                          ? Color(0xfffce069)
+                          : colorsConst[400],
+                      fontWeight: FontWeight.w600))),
         ],
       ),
     );

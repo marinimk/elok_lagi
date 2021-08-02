@@ -19,9 +19,14 @@ class _HomeState extends State<Home> {
             physics: NeverScrollableScrollPhysics(),
             children: [
               SizedBox(height: 5),
-              titleSeparator('Category'),
+              // titleSeparator('Category'),
               Category(),
-              titleSeparator('Restaurant List'),
+              SizedBox(height: 5),
+              Divider(
+                height: 0,
+                thickness: 2,
+              ),
+              // titleSeparator('Restaurant List'),
               RestaurantList(),
               // Container(
               //   height: 100,
