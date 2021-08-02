@@ -24,9 +24,15 @@ class ConfirmOrder extends StatelessWidget {
                   double totalPrice =
                       cart[index].salePrice * cart[index].paxWanted;
                   return Card(
-                      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      elevation: 0,
+                      // color: colorsConst[50],
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 2, color: colorsConst[500]),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      // margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Container(
-                        margin: EdgeInsets.all(10),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

@@ -12,8 +12,6 @@ class RestaurantInfo extends StatefulWidget {
   final String customerID;
   RestaurantInfo({this.restaurantID, this.customerID});
 
-  // bool _willPop;
-
   @override
   _RestaurantInfoState createState() => _RestaurantInfoState();
 }
@@ -42,12 +40,19 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          Image.network(
-                            restaurant.imageURL,
-                            fit: BoxFit.cover,
-                            width: _screenWidth,
-                            alignment: Alignment.center,
-                          ),
+                          restaurant.imageURL == null
+                              ? Image.asset(
+                                  'assets/images/cat.png',
+                                  fit: BoxFit.cover,
+                                  width: _screenWidth,
+                                  alignment: Alignment.center,
+                                )
+                              : Image.network(
+                                  restaurant.imageURL,
+                                  fit: BoxFit.cover,
+                                  width: _screenWidth,
+                                  alignment: Alignment.center,
+                                ),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             color: colorsConst[900].withOpacity(0.5),

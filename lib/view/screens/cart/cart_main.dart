@@ -9,6 +9,7 @@ import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class CartMain extends StatefulWidget {
@@ -64,50 +65,45 @@ class _CartState extends State<CartMain> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CartContent(
-                                        cuid: cart[index].cuid,
-                                        cid: cart[index].cid,
-                                        ruid: cart[index].ruid)));
-                          },
+                          onTap: () => Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: CartContent(
+                                      cuid: cart[index].cuid,
+                                      cid: cart[index].cid,
+                                      ruid: cart[index].ruid))),
                           onLongPress: () => deleteCart(context, cart, index),
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: colorsConst[100],
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(20)),
                             ),
                             margin: EdgeInsets.all(20),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      cart[index].cid,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    Text('Created : ${cart[index].datetime}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 18)),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  size: 40,
-                                  color: Colors.black38,
-                                )
-                              ],
-                            ),
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(cart[index].cid,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                        Text(
+                                            'Created : ${cart[index].datetime}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 18))
+                                      ]),
+                                  Icon(Icons.chevron_right,
+                                      size: 40, color: Colors.black38)
+                                ]),
                           ),
                         );
                       },

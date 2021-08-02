@@ -22,7 +22,7 @@ class _FAQDataState extends State<FAQData> {
           if (snapshot.hasData) {
             final faq = snapshot.data;
             return Scaffold(
-              appBar: ElAppBar(),
+              appBar: ElAppBar2(),
               body: Container(
                 padding: EdgeInsets.symmetric(vertical: 50, horizontal: 30),
                 child: SingleChildScrollView(

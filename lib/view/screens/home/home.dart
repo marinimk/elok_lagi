@@ -11,40 +11,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ListView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            SizedBox(height: 5),
-            // Container(
-            //   margin: EdgeInsets.all(5),
-            //   padding: EdgeInsets.symmetric(horizontal: 5),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     boxShadow: [
-            //       BoxShadow(
-            //           color: Colors.red[50],
-            //           offset: Offset(2, 2),
-            //           blurRadius: 10)
-            //     ],
-            //   ),
-            //   child: ListTile(
-            //     leading: Icon(Icons.search, color: Colors.red[300], size: 40),
-            //     title: TextField(
-            //       decoration: InputDecoration(
-            //           border: InputBorder.none,
-            //           hintText: "Search for your cravings"),
-            //     ),
-            //   ),
-            // ),
-            titleSeparator('Category'),
-            Category(),
-            titleSeparator('Restaurant List'),
-            RestaurantList(),
-            // SizedBox(height: 50)
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              SizedBox(height: 5),
+              titleSeparator('Category'),
+              Category(),
+              titleSeparator('Restaurant List'),
+              RestaurantList(),
+              // Container(
+              //   height: 100,
+              //   child: Text('data'),
+              // )
+            ],
+          ),
         ),
       ),
     );

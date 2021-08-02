@@ -12,7 +12,6 @@ class SignInUp extends StatefulWidget {
 
 class _SignInUpState extends State<SignInUp> {
   bool isSignupScreen = false;
-  bool isRememberMe = false;
 
   String username = '';
   String email = '';
@@ -78,7 +77,7 @@ class _SignInUpState extends State<SignInUp> {
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 700),
                     curve: Curves.easeInOutBack,
-                    height: isSignupScreen ? 280 : 250,
+                    height: isSignupScreen ? 310 : 250,
                     padding: EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width - 40,
                     margin: EdgeInsets.symmetric(horizontal: 20),
@@ -171,44 +170,8 @@ class _SignInUpState extends State<SignInUp> {
         key: _formKey,
         child: Column(
           children: [
-            buildEmailTextField(
-              Icons.email,
-              "Email",
-            ),
-            buildPasswordTextField(Icons.lock, "Password"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isRememberMe,
-                      activeColor: Color(0XFF9BB3C0),
-                      onChanged: (value) {
-                        setState(() => isRememberMe = !isRememberMe);
-                      },
-                    ),
-                    Text(
-                      "Remember me",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0XFFA7BCC7),
-                      ),
-                    )
-                  ],
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Forgot Password?",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0XFFA7BCC7),
-                    ),
-                  ),
-                )
-              ],
-            )
+            buildEmailTextField(Icons.email, "Email"),
+            buildPasswordTextField(Icons.lock, "Password")
           ],
         ),
       ),
@@ -239,7 +202,6 @@ class _SignInUpState extends State<SignInUp> {
                   ),
                   children: [
                     TextSpan(
-                      //recognizer: ,
                       text: "term & conditions",
                       style: TextStyle(color: Colors.orange),
                     ),
@@ -260,7 +222,7 @@ class _SignInUpState extends State<SignInUp> {
     return AnimatedPositioned(
       duration: Duration(milliseconds: 700),
       curve: Curves.easeInOutBack,
-      top: isSignupScreen ? 450 : 430,
+      top: isSignupScreen ? 490 : 430,
       right: 0,
       left: 0,
       child: Center(

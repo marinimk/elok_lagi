@@ -18,33 +18,26 @@ class CartList extends StatelessWidget {
           final cart = snapshot.data;
           return cart.length == 0
               ? Container(
-                  //todo find out how to pop the screen to master in 3 seconds
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                  // height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Your cart is empty. \nReturn to the Home page to browse the restaurants and add items to your cart',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black45,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
+                  child: Column(children: [
+                    Text(
+                      'Your cart is empty. \nReturn to the Home page to browse the restaurants and add items to your cart',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black45,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
                         width: 105,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              Navigator.popAndPushNamed(context, '/master'),
-                          child: buttonTextRow(Icons.home, 'Home'),
-                          style: elevatedButtonStyle(),
-                        ),
-                      )
-                    ],
-                  ),
-                )
+                            onPressed: () =>
+                                Navigator.popAndPushNamed(context, '/master'),
+                            child: buttonTextRow(Icons.home, 'Home'),
+                            style: elevatedButtonStyle()))
+                  ]))
               : Container(
                   height: _screenHeight * 0.80,
                   child: ListView.builder(
@@ -53,6 +46,12 @@ class CartList extends StatelessWidget {
                       double totalPrice =
                           cart[index].salePrice * cart[index].paxWanted;
                       return Card(
+                        elevation: 0,
+                        // color: colorsConst[50],
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 2, color: colorsConst[500]),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                         margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Container(
                           margin: EdgeInsets.all(8),
@@ -68,49 +67,44 @@ class CartList extends StatelessWidget {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         alignment: Alignment.center)
-                                    : Image.asset(
-                                        'assets/images/nachos.png',
+                                    : Image.asset('assets/images/nachos.png',
                                         fit: BoxFit.cover,
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        alignment: Alignment.center,
-                                      ),
+                                        alignment: Alignment.center),
                                 width: 80,
                                 height: 80,
                               ),
                               SizedBox(width: 10),
                               Expanded(
-                                flex: 8,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(cart[index].name.inCaps,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    SizedBox(height: 4),
-                                    Text(
-                                        'RM ${cart[index].salePrice.toStringAsFixed(2).toString()} x ${cart[index].paxWanted.toString()} pax',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic)),
-                                    SizedBox(height: 4),
-                                    Text(
-                                        'RM ${totalPrice.toStringAsFixed(2).toString()}',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold)),
-                                    // SizedBox(height: 4),
-                                  ],
-                                ),
-                              ),
+                                  flex: 8,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(cart[index].name.inCaps,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                        SizedBox(height: 4),
+                                        Text(
+                                            'RM ${cart[index].salePrice.toStringAsFixed(2).toString()} x ${cart[index].paxWanted.toString()} pax',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontStyle: FontStyle.italic)),
+                                        SizedBox(height: 4),
+                                        Text(
+                                            'RM ${totalPrice.toStringAsFixed(2).toString()}',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontStyle: FontStyle.italic,
+                                                fontWeight: FontWeight.bold))
+                                      ])),
                               Expanded(
                                 flex: 1,
                                 child: IconButton(
                                     padding: EdgeInsets.zero,
-                                    // alignment: Alignment.bottomRight,
                                     onPressed: () async {
                                       await DatabaseService(
                                               uid: cart[index].cuid,

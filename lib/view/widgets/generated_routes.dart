@@ -1,15 +1,15 @@
-// import 'package:elok_lagi_restaurant/view/screen/order/order_list.dart';
 import 'package:elok_lagi/master.dart';
 import 'package:flutter/material.dart';
 
 class GeneratedRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
-
+    // MaterialPageRoute route;
     switch (settings.name) {
       case '/master':
         return MaterialPageRoute(builder: (_) => Master());
         break;
+      
       default:
         return _errorRoute();
     }

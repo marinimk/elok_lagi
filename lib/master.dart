@@ -7,6 +7,7 @@ import 'package:elok_lagi/view/screens/profile/profile.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class Master extends StatefulWidget {
@@ -39,13 +40,11 @@ class _MasterState extends State<Master> {
         floatingActionButton: FloatingActionButton(
             elevation: 0,
             child: Icon(Icons.shopping_bag_outlined),
-            onPressed: () {
-              print(user.uid);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CartMain(cuid: user.uid)));
-            }),
+            onPressed: () => Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    child: CartMain(cuid: user.uid)))),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
           color: colorsConst[500],

@@ -1,6 +1,7 @@
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/home/restaurant_category_list.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 // import 'package:elok_lagi/otherprj/models/category.dart' as m;
 
@@ -23,13 +24,11 @@ class Category extends StatelessWidget {
         itemBuilder: (ctx, index) => SizedBox(
           height: 20,
           child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          RestaurantCategoryList(category: category[index])));
-            },
+            onTap: () => Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    child: RestaurantCategoryList(category: category[index]))),
             child: Card(
               elevation: 0,
               shape: RoundedRectangleBorder(

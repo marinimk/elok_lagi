@@ -28,53 +28,29 @@ const colorsConstBrown = {
 
 InputDecoration textInputDecoration(IconData icon, String title) {
   return InputDecoration(
-    prefixIcon: Icon(
-      icon,
-      color: Color(0xFFB6C7D1),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0XFFA7BCC7),
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(35.0),
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0XFFA7BCC7),
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(35.0),
-      ),
-    ),
-    contentPadding: EdgeInsets.all(10),
-    hintText: title,
-    // labelText: 'wassup',
-    hintStyle: TextStyle(
-      fontSize: 14,
-      color: Color(0XFFA7BCC7),
-    ),
-  );
+      prefixIcon: Icon(icon, color: Color(0xFFB6C7D1)),
+      enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0XFFA7BCC7)),
+          borderRadius: BorderRadius.all(Radius.circular(35.0))),
+      focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0XFFA7BCC7)),
+          borderRadius: BorderRadius.all(Radius.circular(35.0))),
+      contentPadding: EdgeInsets.all(10),
+      hintText: title,
+      hintStyle: TextStyle(fontSize: 14, color: Color(0XFFA7BCC7)));
 }
 
 ButtonStyle elevatedButtonStyle() {
   return ButtonStyle(
-    elevation: MaterialStateProperty.all(0),
-    minimumSize: MaterialStateProperty.all(Size(100, 40)),
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
-      ),
-    ),
-  );
+      elevation: MaterialStateProperty.all(0),
+      minimumSize: MaterialStateProperty.all(Size(100, 40)),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0))));
 }
 
 ButtonStyle circularElevatedButton() {
   return ElevatedButton.styleFrom(
-    shape: CircleBorder(),
-    padding: EdgeInsets.all(10),
-  );
+      shape: CircleBorder(), padding: EdgeInsets.all(10));
 }
 
 Row buttonTextRow(IconData icon, String text) {
@@ -82,12 +58,7 @@ Row buttonTextRow(IconData icon, String text) {
     children: [
       Icon(icon),
       SizedBox(width: 5),
-      Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      Text(text, style: TextStyle(fontSize: 16))
     ],
   );
 }

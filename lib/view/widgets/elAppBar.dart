@@ -51,16 +51,31 @@ class ElAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: IconThemeData(
-        color: colorsConstBrown[300],
-      ),
+      automaticallyImplyLeading: false,
+      iconTheme: IconThemeData(color: colorsConstBrown[300]),
       centerTitle: true,
-      title: Text(
-        'Elok Lagi',
-        style: TextStyle(
-          color: colorsConstBrown[400],
-        ),
-      ),
+      title: Text('Elok Lagi', style: TextStyle(color: colorsConstBrown[400])),
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+    );
+  }
+}
+
+class ElAppBarOrder extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  final String title;
+  final bool leading;
+  ElAppBarOrder({this.title, this.leading});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: leading,
+      iconTheme: IconThemeData(color: colorsConstBrown[300]),
+      centerTitle: true,
+      title: Text('#$title', style: TextStyle(color: colorsConstBrown[400])),
       backgroundColor: Colors.white,
       elevation: 0.0,
     );

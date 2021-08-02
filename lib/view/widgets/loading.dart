@@ -6,14 +6,7 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white.withOpacity(0),
-      child: Center(
-        child: SpinKitRipple(
-          color: colorsConstBrown[500],
-          size: 50.0,
-          // duration: Duration(milliseconds: 750),
-        ),
-      ),
-    );
+        color: Colors.white.withOpacity(0),
+        child: Center(child: SpinKitHourGlass(color: colorsConstBrown[500])));
   }
 }

@@ -8,6 +8,8 @@ import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/elAppBar.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class CartContent extends StatefulWidget {
@@ -36,7 +38,6 @@ class _CartContentState extends State<CartContent> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Users>(context);
-    // Size _screenSize = MediaQuery.of(context).size;
     return StreamBuilder<RestaurantData>(
       stream: DatabaseService(uid: widget.ruid).restaurantData,
       builder: (context, snapshot) {
@@ -46,7 +47,6 @@ class _CartContentState extends State<CartContent> {
             appBar: ElAppBar2(),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              // height: _screenSize.height * 0.2,
               child: Column(
                 children: [
                   restaurantInfoInCart(Icons.house, restaurant.name),
@@ -55,7 +55,6 @@ class _CartContentState extends State<CartContent> {
                       Icons.phone_android, restaurant.phoneNum),
                   divider(),
                   restaurantInfoInCart(Icons.pin_drop, restaurant.location),
-                  // SizedBox(height: 10),
                   CartList(),
                 ],
               ),
@@ -89,7 +88,6 @@ class _CartContentState extends State<CartContent> {
       String cuid, double totalPrice) {
     Size _screenSize = MediaQuery.of(context).size;
     return showModalBottomSheet(
-      // isDismissible: true,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
@@ -101,105 +99,105 @@ class _CartContentState extends State<CartContent> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: colorsConst[300],
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: Row(
-                  children: [
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: colorsConst[300],
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30)),
+                  ),
+                  child: Row(children: [
                     CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(restaurant.imageURL),
-                    ),
+                        radius: 50,
+                        backgroundImage: NetworkImage(restaurant.imageURL)),
                     SizedBox(width: 5),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
                             Icon(Icons.house),
                             Text(restaurant.name.inCaps,
                                 style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.money),
+                                    fontSize: 22, fontWeight: FontWeight.w600))
+                          ]),
+                          Row(children: [
+                            Icon(Icons.attach_money_outlined),
                             Text('RM ${totalPrice.toStringAsFixed(2)}',
                                 style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+                                    fontSize: 22, fontWeight: FontWeight.w600))
+                          ])
+                        ])
+                  ])),
               Form(
-                key: _formKey,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(30, 15, 30, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      pickupTimeDropDown(),
-                      updateTextFormField(
-                          Icons.border_color, 'Special request'),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                child: Column(
-                  children: [
-                    ConfirmOrder(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  key: _formKey,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(30, 15, 30, 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        pickupTimeDropDown(),
+                        updateTextFormField(
+                            Icons.border_color, 'Special request'),
                         Container(
-                          child: ElevatedButton(
-                            style: elevatedButtonStyle().copyWith(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green),
-                            ),
-                            onPressed: () async {
-                              await DatabaseService(
-                                      uid: cuid,
-                                      ruid: restaurant.uid,
-                                      fid: widget.cid)
-                                  .createOrder(cuid, restaurant.uid, _message,
-                                      _pickUpTime, totalPrice);
+                          child: Column(
+                            children: [
+                              ConfirmOrder(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: ElevatedButton(
+                                      style: elevatedButtonStyle().copyWith(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.green),
+                                      ),
+                                      onPressed: () async {
+                                        if (_formKey.currentState.validate()) {
+                                          await DatabaseService(
+                                                  uid: cuid,
+                                                  ruid: restaurant.uid,
+                                                  fid: widget.cid)
+                                              .createOrder(
+                                                  cuid,
+                                                  restaurant.uid,
+                                                  _message,
+                                                  _pickUpTime,
+                                                  totalPrice);
 
-                              // DatabaseService(uid: cuid).deleteCart();
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OrderSummary(widget.cid)));
-                            },
-                            child: buttonTextRow(Icons.check_circle, 'CONFIRM'),
-                          ),
-                        ),
-                        SizedBox(width: 5),
-                        Container(
-                          child: ElevatedButton(
-                            style: elevatedButtonStyle().copyWith(
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.red),
-                            ),
-                            onPressed: () => Navigator.pop(context),
-                            child: buttonTextRow(Icons.cancel, 'CANCEL'),
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    OrderSummary(
+                                                        oid: widget.cid)),
+                                          );
+                                        }
+                                      },
+                                      child: buttonTextRow(
+                                          Icons.check_circle, 'CONFIRM'),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Container(
+                                    child: ElevatedButton(
+                                      style: elevatedButtonStyle().copyWith(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.red),
+                                      ),
+                                      onPressed: () => Navigator.pop(context),
+                                      child:
+                                          buttonTextRow(Icons.cancel, 'CANCEL'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
+                  ))
             ],
           ),
         );
@@ -209,20 +207,15 @@ class _CartContentState extends State<CartContent> {
 
   Padding updateTextFormField(IconData icon, String title) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: TextFormField(
-          // initialValue: initVal,
-          // validator: (val) => val.isEmpty
-          //     ? 'please field in your new $widget.title.toLowerCase()'
-          //     : '',
-          onChanged: (val) => setState(() => _message = val),
-          decoration: textInputDecoration(icon, title)),
-    );
+        padding: EdgeInsets.all(8.0),
+        child: TextFormField(
+            onChanged: (val) => setState(() => _message = val),
+            decoration: textInputDecoration(icon, title)));
   }
 
   DropdownButtonFormField pickupTimeDropDown() {
     return DropdownButtonFormField(
-      decoration: textInputDecoration(Icons.access_time, null).copyWith(),
+      decoration: textInputDecoration(Icons.access_time, null),
       hint: Text('Please select a pick up time'),
       items: time.map((t) {
         return DropdownMenuItem(
@@ -230,10 +223,11 @@ class _CartContentState extends State<CartContent> {
           child: t == '60' ? Text('1 hour') : Text('${t.toString()} minutes'),
         );
       }).toList(),
-      onChanged: (val) {
-        setState(() {
-          _pickUpTime = val;
-        });
+      onChanged: (val) => setState(() => _pickUpTime = val),
+      validator: (val) {
+        String error;
+        if (val == null) error = 'Please select a pick up time';
+        return error;
       },
     );
   }

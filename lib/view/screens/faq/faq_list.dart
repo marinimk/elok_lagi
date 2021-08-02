@@ -6,6 +6,7 @@ import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 class FAQList extends StatefulWidget {
   @override
@@ -31,12 +32,10 @@ class _FAQListState extends State<FAQList> {
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FAQData(
-                                faqid: faq[index].faqid,
-                              )),
-                    );
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: FAQData(faqid: faq[index].faqid)));
                   },
                   child: Card(
                     elevation: 2,
