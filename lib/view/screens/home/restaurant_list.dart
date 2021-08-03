@@ -33,40 +33,38 @@ class RestaurantList extends StatelessWidget {
                           PageTransition(
                               type: PageTransitionType.bottomToTop,
                               child: RestaurantInfo(
-                                restaurantID: restaurant[index].uid,
-                                customerID: user.uid,
-                              )));
+                                  restaurantID: restaurant[index].uid,
+                                  customerID: user.uid)));
                   },
                   child: Card(
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                      ),
-                    ),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20))),
                     elevation: 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Stack(children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20)),
-                              child: Image.network(restaurant[index].imageURL,
-                                  width: double.infinity,
-                                  height: 175,
-                                  fit: BoxFit.cover)),
-                          restaurant[index].status
-                              ? Container()
-                              : Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black45.withOpacity(0.3),
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20))),
-                                  height: 175,
-                                  child: Row(
+                        Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                                child: Image.network(restaurant[index].imageURL,
+                                    width: double.infinity,
+                                    height: 175,
+                                    fit: BoxFit.cover)),
+                            restaurant[index].status
+                                ? Container()
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black45.withOpacity(0.3),
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20))),
+                                    height: 175,
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
@@ -82,8 +80,11 @@ class RestaurantList extends StatelessWidget {
                                                         MaterialStateProperty
                                                             .all<Color>(Colors
                                                                 .black87)))
-                                      ]))
-                        ]),
+                                      ],
+                                    ),
+                                  )
+                          ],
+                        ),
                         Padding(
                             padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
                             child: Text(
@@ -97,10 +98,9 @@ class RestaurantList extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
                             child: Text(
                                 '${restaurant[index].category.capitalizeFirstofEach} | ${restaurant[index].location.capitalizeFirstofEach}',
-                                style: GoogleFonts.lustria(
-                                    textStyle: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600)))),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600))),
                       ],
                     ),
                   ),

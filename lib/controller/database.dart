@@ -37,22 +37,6 @@ class DatabaseService {
     });
   }
 
-  //customer list from snapshot that i dont think i'll be using
-  List<Customer> _customerListFromSS(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Customer(
-        username: doc.data()['username'] ?? '',
-        location: doc.data()['location'] ?? '',
-        phoneNum: doc.data()['phoneNum'] ?? '',
-        imageURL: doc.data()['imageURL'] ?? '',
-      );
-    }).toList();
-  }
-
-  Stream<List<Customer>> get customer {
-    return customerCollection.snapshots().map(_customerListFromSS);
-  }
-
   //customer data from snapshot
   CustomerData _customerDataFromSS(DocumentSnapshot snapshot) {
     return CustomerData(

@@ -1,6 +1,5 @@
 import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_main.dart';
-import 'package:elok_lagi/view/screens/notifications.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

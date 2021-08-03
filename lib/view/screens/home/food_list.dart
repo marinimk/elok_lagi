@@ -36,8 +36,7 @@ class _FoodListState extends State<FoodList> {
                           color: colorsConstBrown[50],
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            // side: BorderSide(width: 3, color: Colors.red[300]),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: FoodTile(food: food[index])),
@@ -58,7 +57,6 @@ class _FoodListState extends State<FoodList> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
-      // isDismissible: false,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {

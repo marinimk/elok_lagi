@@ -40,66 +40,64 @@ class _OrderSummaryState extends State<OrderSummary> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       divider(),
-                      Expanded(
-                          flex: 2, child: RestaurantOrder(ruid: order.ruid)),
+                      Container(
+                          height: 160,
+                          child: RestaurantOrder(ruid: order.ruid)),
                       divider(),
-                      Expanded(flex: 5, child: FoodOrder(oid: widget.oid)),
+                      Container(height: 290, child: FoodOrder(oid: widget.oid)),
                       divider(),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          margin:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.border_color, size: 30),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Special request: ',
+                      Container(
+                        height: 175,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.border_color, size: 30),
+                                SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Special request: ',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    Container(
+                                      padding: EdgeInsets.all(5),
+                                      width: 275,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8))),
+                                      child: Text(
+                                          order.message == ''
+                                              ? 'No special request'
+                                              : order.message,
                                           style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold)),
-                                      Container(
-                                        padding: EdgeInsets.all(5),
-                                        width: 275,
-                                        height: 70,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8))),
-                                        child: Text(
-                                            order.message == ''
-                                                ? 'No special request'
-                                                : order.message,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              orderColumn(order, Icons.payment,
-                                  'Total price: RM ${order.totalPrice.toStringAsFixed(2)}'),
-                              SizedBox(height: 5),
-                              orderColumn(order, Icons.access_time,
-                                  'Pick Up Time: ${order.pickUpTime}'),
-                            ],
-                          ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            orderColumn(order, Icons.payment,
+                                'Total price: RM ${order.totalPrice.toStringAsFixed(2)}'),
+                            SizedBox(height: 5),
+                            orderColumn(order, Icons.access_time,
+                                'Pick Up Time: ${order.pickUpTime}'),
+                          ],
                         ),
                       ),
                       divider(),
-                      Expanded(
-                        flex: 1,
+                      Container(
+                        height: 50,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
