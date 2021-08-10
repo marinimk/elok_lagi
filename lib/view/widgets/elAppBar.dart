@@ -2,6 +2,7 @@ import 'package:elok_lagi/models/users.dart';
 import 'package:elok_lagi/view/screens/cart/cart_main.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,8 +30,9 @@ class ElAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: colorsYellowBanan, size: 25),
             onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => CartMain(cuid: user.uid))))
+                PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    child: CartMain(cuid: user.uid))))
       ],
     );
   }

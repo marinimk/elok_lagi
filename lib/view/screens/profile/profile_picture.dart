@@ -2,9 +2,11 @@ import 'package:elok_lagi/controller/auth.dart';
 import 'package:elok_lagi/controller/database.dart';
 import 'package:elok_lagi/models/customer.dart';
 import 'package:elok_lagi/models/users.dart';
+import 'package:elok_lagi/view/authenticate/signinup.dart';
 import 'package:elok_lagi/view/widgets/constants.dart';
 import 'package:elok_lagi/view/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePicture extends StatefulWidget {
@@ -38,7 +40,18 @@ class _ProfilePictureState extends State<ProfilePicture> {
                 Container(
                   width: 120,
                   child: ElevatedButton(
-                    onPressed: () async => await _auth.signOut(),
+                    onPressed: () async {
+                      await _auth.signOut();
+                      // Navigator.push(
+                      //     context,
+                      //     PageTransition(
+                      //         type: PageTransitionType.bottomToTop,
+                      //         child: SignInUp()));
+                      // Navigator.of(context).pushNamedAndRemoveUntil(
+                      //     '/Logout', (Route<dynamic> route) => false);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => SignInUp()));
+                    },
                     child: buttonTextRow(Icons.logout, 'Logout'),
                     style: elevatedButtonStyle(),
                   ),

@@ -1,5 +1,7 @@
 import 'package:elok_lagi/master.dart';
+import 'package:elok_lagi/view/authenticate/signinup.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class GeneratedRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,7 +11,13 @@ class GeneratedRoutes {
       case '/master':
         return MaterialPageRoute(builder: (_) => Master());
         break;
-      
+
+      case '/Logout':
+        return PageTransition(
+            type: PageTransitionType.bottomToTop, child: SignInUp());
+        // MaterialPageRoute(builder: (_) => SignInUp());
+        break;
+
       default:
         return _errorRoute();
     }
