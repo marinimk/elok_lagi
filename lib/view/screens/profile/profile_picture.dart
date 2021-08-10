@@ -42,13 +42,6 @@ class _ProfilePictureState extends State<ProfilePicture> {
                   child: ElevatedButton(
                     onPressed: () async {
                       await _auth.signOut();
-                      // Navigator.push(
-                      //     context,
-                      //     PageTransition(
-                      //         type: PageTransitionType.bottomToTop,
-                      //         child: SignInUp()));
-                      // Navigator.of(context).pushNamedAndRemoveUntil(
-                      //     '/Logout', (Route<dynamic> route) => false);
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => SignInUp()));
                     },
