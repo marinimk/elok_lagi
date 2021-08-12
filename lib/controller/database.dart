@@ -546,11 +546,6 @@ class DatabaseService {
         'reason': value.data()['reason'],
         'pending': value.data()['pending'],
       });
-      // historyCustSub.update({
-      //   'ahid': fid,
-      //   'completed': true,
-      //   'oid': FieldValue.delete(),
-      // });
     });
 
     //duplicating the fooditem from order into history
@@ -569,6 +564,14 @@ class DatabaseService {
     deleteOrder();
   }
 
+  Future completeOrderRestaurant() async {
+    await restaurantCollection
+        .doc(ruid)
+        .collection('acceptHistory')
+        .doc(fid)
+        .update({'completed': true});
+  }
+
   //returning the list of history orders in a restaurant
   List<AcceptHistory> _acceptHistoryListFromSS(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
@@ -578,8 +581,6 @@ class DatabaseService {
       Timestamp orderTS = doc.data()['orderTime'] as Timestamp;
       DateTime orderDT = orderTS.toDate();
 
-      String datee =
-          '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
       String orderT = DateFormat('jm').format(orderDT);
       String pickUpT = DateFormat('jm').format(pickUpDT);
       return AcceptHistory(
@@ -620,8 +621,6 @@ class DatabaseService {
     Timestamp orderTS = snapshot.data()['orderTime'] as Timestamp;
     DateTime orderDT = orderTS.toDate();
 
-    String datee =
-        '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
     String orderT = DateFormat('jm').format(orderDT);
     String pickUpT = DateFormat('jm').format(pickUpDT);
     return AcceptHistory(
@@ -687,8 +686,6 @@ class DatabaseService {
       Timestamp orderTS = doc.data()['orderTime'] as Timestamp;
       DateTime orderDT = orderTS.toDate();
 
-      String datee =
-          '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
       String orderT = DateFormat('jm').format(orderDT);
       String pickUpT = DateFormat('jm').format(pickUpDT);
       return DeclineHistory(
@@ -727,8 +724,6 @@ class DatabaseService {
     Timestamp orderTS = snapshot.data()['orderTime'] as Timestamp;
     DateTime orderDT = orderTS.toDate();
 
-    String datee =
-        '${pickUpDT.day.toString().padLeft(2, '0')}/${pickUpDT.month.toString().padLeft(2, '0')}/${pickUpDT.year.toString().padLeft(2, '0')}';
     String orderT = DateFormat('jm').format(orderDT);
     String pickUpT = DateFormat('jm').format(pickUpDT);
     return DeclineHistory(

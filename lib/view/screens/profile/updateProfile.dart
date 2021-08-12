@@ -152,7 +152,6 @@ class UpdateProfileState extends State<UpdateProfile> {
 
   Padding updatePhoneTextFormField(
       IconData icon, String title, String initVal) {
-    
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
